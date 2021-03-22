@@ -10,17 +10,13 @@ import About from './Components/About';
 
 const Main = () => {
     return (
-    <Switch>
-        <Route exact path='/' render={() => {
-            return <Home/>
-        }}/>
-        <Route exact path='/Login' render={() =>{
-            return <Login/>
-        }}/>
-        <Route exact path='/About' render={() =>{
-            return <About/>
-        }}/>
-    </Switch>
+    <HashRouter>
+        <Switch>
+            <Route exact path='/' component={Home} />
+            <Route exact path='/Login' component={Login}/>
+            <Route exact path='/About' component={About}/>
+        </Switch>
+    </HashRouter>
     );
 };
 

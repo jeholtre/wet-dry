@@ -9,7 +9,8 @@
 /coverage
 
 # production
-/build
+#Jason commented this out to see if it would fix things.
+#/build
 
 # misc
 .DS_Store
