@@ -28,17 +28,17 @@ function Home() {
                 }}>Update coords!</button>
                 <h1>Your coords are {currentLatitude}, {currentLongitude}</h1>
                 <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/Login"}}>Login
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/Login"}}>Login
                     </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/Login"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/Login"}}>
                         Sign up
                     </button>
                 </p>
                 <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/About"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
                         About
                     </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/About"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
                         Help
                     </button>
                 </p>
