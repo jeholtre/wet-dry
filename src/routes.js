@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {HashRouter, Switch, Route} from 'react-router-dom';
 
 import App from './App';
 import Home from './Components/Home';
@@ -10,17 +10,19 @@ import About from './Components/About';
 
 const Main = () => {
     return (
-    <Switch>
-        <Route exact path='/' render={() => {
-            return <Home/>
-        }}/>
-        <Route exact path='/Login' render={() =>{
-            return <Login/>
-        }}/>
-        <Route exact path='/About' render={() =>{
-            return <About/>
-        }}/>
-    </Switch>
+    <HashRouter basename={process.env.PUBLIC_URL}>
+        <Switch>
+            <Route exact path='/' render={() => {
+                return <Home/>
+            }}/>
+            <Route exact path='/Login' render={() =>{
+                return <Login/>
+            }}/>
+            <Route exact path='/About' render={() =>{
+                return <About/>
+            }}/>
+        </Switch>
+    </HashRouter>
     );
 };
 
