@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/wet-dry/static/css/main.f1344367.chunk.css",
+    "main.js": "/wet-dry/static/js/main.bfe0ed51.chunk.js",
+    "main.js.map": "/wet-dry/static/js/main.bfe0ed51.chunk.js.map",
+    "runtime-main.js": "/wet-dry/static/js/runtime-main.21604b59.js",
+    "runtime-main.js.map": "/wet-dry/static/js/runtime-main.21604b59.js.map",
+    "static/js/2.cdeec456.chunk.js": "/wet-dry/static/js/2.cdeec456.chunk.js",
+    "static/js/2.cdeec456.chunk.js.map": "/wet-dry/static/js/2.cdeec456.chunk.js.map",
+    "index.html": "/wet-dry/index.html",
+    "static/css/main.f1344367.chunk.css.map": "/wet-dry/static/css/main.f1344367.chunk.css.map",
+    "static/js/2.cdeec456.chunk.js.LICENSE.txt": "/wet-dry/static/js/2.cdeec456.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.21604b59.js",
+    "static/js/2.cdeec456.chunk.js",
+    "static/css/main.f1344367.chunk.css",
+    "static/js/main.bfe0ed51.chunk.js"
+  ]
+}
