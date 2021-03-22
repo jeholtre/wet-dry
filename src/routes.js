@@ -10,11 +10,11 @@ import About from './Components/About';
 
 const Main = () => {
     return (
-    <HashRouter>
+    <HashRouter basename={"/wet-dry"}>
         <Switch>
             <Route exact path='/' component={Home} />
-            <Route exact path='/Login' component={Login}/>
-            <Route exact path='/About' component={About}/>
+            <Route path='/Login' component={Login}/>
+            <Route path='/About' component={About}/>
         </Switch>
     </HashRouter>
     );
