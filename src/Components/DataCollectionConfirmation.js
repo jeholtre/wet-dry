@@ -7,18 +7,20 @@ function Confirmation()
         <div className={'Confirmation'}>
             <header className={"App-header"}>
                 <Container>
-                    <h1><strong><u> Stream Data Confirmation </u></strong></h1>
-                    <label>
-                        <strong>Stream:</strong>
-                        <Input type='text' name='blah' placeholder='Stream Name'/>
-                    </label>
+                    <h1 size="huge"><strong><u> Stream Data Confirmation </u></strong></h1>
+                    <br></br>
+                    <br></br>
                     <p>
-                        <strong>Stream Section:</strong>
-                        <Input placeholder='Stream Section' />
+                        <strong>Stream:    </strong>
+                        <Input size="mini" placeholder='Stream Name'/>
                     </p>
                     <p>
-                        <strong>Class/Section ID:</strong>
-                        <Input size="large" placeholder='ID' />
+                        <strong>Stream Section:    </strong>
+                        <Input size="mini" placeholder='Stream Section' />
+                    </p>
+                    <p>
+                        <strong>Class/Section ID:   </strong>
+                        <Input size="mini" placeholder='ID' />
                     </p>
                 </Container>
                 <br></br>
