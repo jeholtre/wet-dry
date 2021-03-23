@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import { Button, Image, Reveal } from 'semantic-ui-react';
 import Main from "../routes";
 import '../App.css';
+import logo from '../logo.svg';
+
 function Home() {
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
@@ -23,6 +26,7 @@ function Home() {
                 <p>
                     Welcome to Wet-Dry Mapping!
                 </p>
+                <Image src={logo} fluid />
                 <button onClick={() => {
                     setUpdateCoords(!updateCoords);
                 }}>Update coords!</button>
