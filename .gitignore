@@ -6,12 +6,13 @@
 .pnp.js
 package-lock.json
 package.json
+.idea/
 
 # testing
 /coverage
 
 # production
-#Jason commented this out to see if it would fix things.
+#Jason commented this out to see if it would fix things.        IT DID -Future Jason
 #/build
 
 # misc
