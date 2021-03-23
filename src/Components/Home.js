@@ -3,6 +3,20 @@ import { Button, Image, Reveal } from 'semantic-ui-react';
 import Main from "../routes";
 import '../App.css';
 import logo from '../logo.svg';
+import Carousel from '@brainhubeu/react-carousel';
+import '@brainhubeu/react-carousel/lib/style.css';
+import river1 from "../images/river1.jfif";
+import river2 from "../images/river2.jfif";
+import river3 from "../images/river3.jfif";
+
+export const MyCarousel = () => (
+    <Carousel plugins={['arrows']}>
+        <img src={river1} />
+        <img src={river2} />
+        <img src={river3} />
+    </Carousel>
+);
+
 
 function Home() {
     const [currentLatitude, setCurrentLatitude] = useState();
@@ -26,24 +40,27 @@ function Home() {
                 <p>
                     Welcome to Wet-Dry Mapping!
                 </p>
-                <Image src={logo} fluid />
-                <button onClick={() => {
-                    setUpdateCoords(!updateCoords);
-                }}>Update coords!</button>
-                <h1>Your coords are {currentLatitude}, {currentLongitude}</h1>
+                <MyCarousel/>
+
                 <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/Login"}}>Login
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/DataCollection"}}>
+                        Data Collection
                     </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/Login"}}>
-                        Sign up
-                    </button>
-                </p>
-                <p>
                     <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
                         About
                     </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
-                        Help
+                </p>
+                <p>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/PrelimDataAcq"}}>
+                        Preliminary Data Aqc. Page
+                    </button>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/DataCollectionConfirmation"}}>
+                        DataCollectionConfirmation Page
+                    </button>
+                </p>
+                <p>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/POI"}}>
+                        POI Page
                     </button>
                 </p>
             </header>
