@@ -7,7 +7,7 @@ import About from './Components/About';
 import DataCollection from './Components/DataCollection'
 import DataCollectionConfirmation from './Components/DataCollectionConfirmation'
 import POI from './Components/POI'
-//import PrelimDataAcq from './Components/PrelimDataAcq'
+import PrelimDataAcq from './Components/PrelimDataAcq'
 const Main = () => {
     return (
     <HashRouter basename={"/wet-dry"}>
@@ -17,8 +17,8 @@ const Main = () => {
             <Route path='/About' component={About}/>
             {/*<Route path='/POI' component={POI}/>*/}
             <Route path='/DataCollection' component={DataCollection}/>
-            {/*<Route path='/DataCollectionConfirmation' component={DataCollectionConfirmation}/>*/}
-            {/*<Route path='/PrelimDataAcq' component={PrelimDataAcq}/>*/}
+            <Route path='/DataCollectionConfirmation' component={DataCollectionConfirmation}/>
+            <Route path='/PrelimDataAcq' component={PrelimDataAcq}/>
         </Switch>
     </HashRouter>
     );
