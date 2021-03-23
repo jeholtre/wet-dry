@@ -7,6 +7,8 @@ import Home from './Components/Home';
 import Login from './Components/Login';
 // import SignUp from '';
 import About from './Components/About';
+// import Data Collection Confirmation
+import Confirmation from './Components/DataCollectionConfirmation'
 
 const Main = () => {
     return (
@@ -15,6 +17,7 @@ const Main = () => {
             <Route exact path='/' component={Home} />
             <Route path='/Login' component={Login}/>
             <Route path='/About' component={About}/>
+            <Route path='/Confirmation' component={Confirmation}/>
         </Switch>
     </HashRouter>
     );
