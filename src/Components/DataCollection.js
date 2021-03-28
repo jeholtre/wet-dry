@@ -4,6 +4,9 @@ import '../css/DataCollection.css'
 import {MyCarousel} from "./Home";
 import 'semantic-ui-css/semantic.min.css';
 import  {Button,Header, Icon, Segment} from "semantic-ui-react";
+import { usePosition } from 'use-position';
+import {LiveLocation} from "./LiveLocation";
+import GoogleMapReact from 'google-map-react';
 
 function DataCollection() {
     const [currentLatitude, setCurrentLatitude] = useState();
@@ -16,7 +19,6 @@ function DataCollection() {
 
 
     navigator.geolocation.watchPosition(function(position) {
-        console.log(trail);
         console.log("Latitude is :", position.coords.latitude);
         console.log("Longitude is :", position.coords.longitude);
         setCurrentLatitude(position.coords.latitude);
@@ -26,6 +28,7 @@ function DataCollection() {
     });
 
     return (
+
         <div className="DataCollection">
             <Header as='h1' textAlign='center' paddingTop="10px">
                 <Header.Content>Press Start To Begin Recording!<Icon name='location arrow' className="icon"/></Header.Content>
@@ -49,9 +52,14 @@ function DataCollection() {
                         </Button>
                     </div>
                 </Header>
-                    <div className="mapCarousel">
-                        <MyCarousel />
-                    </div>
+                <div style={{ height: '50vh', width: '50wh' }}>
+                <GoogleMapReact
+                    bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                    defaultCenter={{lat: currentLatitude, lng: currentLongitude}}
+                    defaultZoom={12}
+                >
+                </GoogleMapReact>
+                </div>
                 <div className="ui buttons">
                     <button onClick={() => {
                         setRipplePool(0);
@@ -75,8 +83,7 @@ function DataCollection() {
                 </div>
             </Segment>
             <Segment placeholder className="placeHolder">
-
-                <p>Current Location: {currentLatitude}, {currentLongitude}</p>
+                <LiveLocation />
                 <p>
                     <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/POI"}}>
                         Add POI
