@@ -1,0 +1,33 @@
+.DataCollection {
+    padding-top: 36px;
+    background-color: #93c47dff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    max-width: initial;
+}
+
+.DataCollection .placeHolder {
+    width: 600px;
+}
+
+.DataCollection .icon {
+    padding-left: 10px !important;
+}
+
+.DataCollection p {
+    color: black;
+}
+
+.DataCollection .icon-button {
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.DataCollection .relative {
+    position: relative;
+}
