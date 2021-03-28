@@ -18,6 +18,7 @@ function DataCollection() {
     const [ripplePool, setRipplePool] = useState(null);
 
 
+    //Should update everytime position changes
     navigator.geolocation.watchPosition(function(position) {
         console.log("Latitude is :", position.coords.latitude);
         console.log("Longitude is :", position.coords.longitude);
@@ -28,7 +29,6 @@ function DataCollection() {
     });
 
     return (
-
         <div className="DataCollection">
             <Header as='h1' textAlign='center' paddingTop="10px">
                 <Header.Content>Press Start To Begin Recording!<Icon name='location arrow' className="icon"/></Header.Content>
@@ -60,16 +60,18 @@ function DataCollection() {
                 >
                 </GoogleMapReact>
                 </div>
-                <div className="ui buttons">
-                    <button onClick={() => {
-                        setRipplePool(0);
-                    }} className={`ui button ${ripplePool == 0 ? "active" : ""}`}>Ripple</button>
-                    <button onClick={() => {
-                        setRipplePool(1);
-                    }} className={`ui button ${ripplePool == 1 ? "active" : ""}`}>Neither</button>
-                    <button onClick={() => {
-                        setRipplePool(2);
-                    }} className={`ui button ${ripplePool == 2 ? "active" : ""}`}>Pool</button>
+                <div>
+                    <div className="ui buttons">
+                        <button onClick={() => {
+                            setRipplePool(0);
+                        }} className={`ui button ${ripplePool == 0 ? "active" : ""}`}>Ripple</button>
+                        <button onClick={() => {
+                            setRipplePool(1);
+                        }} className={`ui button ${ripplePool == 1 ? "active" : ""}`}>Neither</button>
+                        <button onClick={() => {
+                            setRipplePool(2);
+                        }} className={`ui button ${ripplePool == 2 ? "active" : ""}`}>Pool</button>
+                    </div>
                 </div>
                 <div>
                     <div className="ui buttons">
@@ -81,8 +83,6 @@ function DataCollection() {
                         }} className={`ui button ${isWet == 1 ? "active" : ""}`}>Dry</button>
                     </div>
                 </div>
-            </Segment>
-            <Segment placeholder className="placeHolder">
                 <LiveLocation />
                 <p>
                     <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/POI"}}>
