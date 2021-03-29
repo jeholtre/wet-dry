@@ -17,11 +17,14 @@ function PrelimDataAcq()
                     <input type="text" id="sSection" name="sSection" value="Direction Brance"/><br/>
                     <label htmlFor="classID">Class/Section ID:</label>
                     <input type="text" id="classID" name="classID" value="######"/><br/>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry#/"}}>back
+                    <button className={"App-button"} type={"button"} onClick={() => {
+                        window.location.href = "/"}}>back {/* Funny it send to address '/#/' */}
                     </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/DataCollection"}}>Submit
+                    <button className={"App-button"} type={"button"} onClick={() => {
+                        window.location.href = "#/DataCollection"}}>Submit
                     </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {
+                        window.location.href = "#/About"}}>
                         ?
                     </button>
                 </form>
