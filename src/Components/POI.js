@@ -46,7 +46,7 @@ function POI() {
                         <Grid.Column>
                             <p><Header as='h5'>Location</Header>Latitude: {currentLatitude},<br></br> Longitude: {currentLongitude}</p>
                             <p><Header as='h5'>Date</Header>
-                                { (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear() }
+                                { (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() }
                             </p>
                             <p><Header as='h5'>Stream Name</Header>Stream Name</p>
                         </Grid.Column>
