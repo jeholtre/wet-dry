@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Button, Image, Header, Icon, Card, Placeholder, Segment, Grid, Divider, Form } from 'semantic-ui-react';
-import '../App.css';
-import logo from '../logo.svg';
+import '../css/POI.css';
+import GoogleMapReact from 'google-map-react';
 
 function POI() {
 
@@ -9,7 +9,7 @@ function POI() {
     const [currentLongitude, setCurrentLongitude] = useState();
     const [updateCoords, setUpdateCoords] = useState(false);
 
-    useEffect(() => {
+    /* useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
             setCurrentLatitude(position.coords.latitude);
             setCurrentLongitude(position.coords.longitude);
@@ -19,6 +19,15 @@ function POI() {
     navigator.geolocation.watchPosition(function(position) {
         console.log("Latitude is :", position.coords.latitude);
         console.log("Longitude is :", position.coords.longitude);
+    }); */
+
+     //Should update everytime position changes
+     navigator.geolocation.watchPosition(function(position) {
+        console.log("Latitude is :", position.coords.latitude);
+        console.log("Longitude is :", position.coords.longitude);
+        setCurrentLatitude(position.coords.latitude);
+        setCurrentLongitude(position.coords.longitude);
+        // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
     });
 
     return (
@@ -35,6 +44,14 @@ function POI() {
                     <Button color='green'>Add Photo</Button>
                 </Segment.Inline>
             </Segment>
+            <div className="placeHolder">
+                <GoogleMapReact
+                    bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                    defaultCenter={{lat: currentLatitude, lng: currentLongitude}}
+                    defaultZoom={12}
+                >
+                </GoogleMapReact>
+            </div>
             <Segment className="placeHolder">
                 <Form>
                     <Grid columns={2} relaxed='very'>
