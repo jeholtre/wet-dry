@@ -7,19 +7,7 @@ function POI() {
 
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
-    const [updateCoords, setUpdateCoords] = useState(false);
-
-    /* useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            setCurrentLatitude(position.coords.latitude);
-            setCurrentLongitude(position.coords.longitude);
-        })
-    }, [updateCoords]);
-
-    navigator.geolocation.watchPosition(function(position) {
-        console.log("Latitude is :", position.coords.latitude);
-        console.log("Longitude is :", position.coords.longitude);
-    }); */
+    const [date, setDate] = useState(new Date());
 
      //Should update everytime position changes
      navigator.geolocation.watchPosition(function(position) {
@@ -52,12 +40,14 @@ function POI() {
                 >
                 </GoogleMapReact>
             </div>
-            <Segment className="placeHolder">
+            <Segment className="placeHolder" style={{ height: "auto" }}>
                 <Form>
                     <Grid columns={2} relaxed='very'>
                         <Grid.Column>
                             <p><Header as='h5'>Location</Header>Latitude: {currentLatitude},<br></br> Longitude: {currentLongitude}</p>
-                            <p><Header as='h5'>Date</Header>MM/DD/YYYY</p>
+                            <p><Header as='h5'>Date</Header>
+                                { (date.getUTCMonth() + 1) + "/" + date.getUTCDate() + "/" + date.getUTCFullYear() }
+                            </p>
                             <p><Header as='h5'>Stream Name</Header>Stream Name</p>
                         </Grid.Column>
                         <Grid.Column>
