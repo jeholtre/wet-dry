@@ -1,5 +1,6 @@
 .POI {
     padding-top: 36px;
+    padding-bottom: 36px;
     background-color: #93c47dff;
     min-height: 100vh;
     display: flex;
