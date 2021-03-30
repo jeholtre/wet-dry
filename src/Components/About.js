@@ -1,19 +1,19 @@
 import React from 'react';
-import {Header, Divider, Segment, Button, Popup, Modal} from 'semantic-ui-react';
-import '../App.css';
+import {Header, Divider, Segment, Button, Modal} from 'semantic-ui-react';
+import '../css/About.css';
 function About() {
     const [open, setOpen] = React.useState(false)
 
             return (
-                <div className={"POI"}>
+                <div className={"About"}>
                     <Header size={'large'} color={'green'}>About Page</Header>
-                    <Segment placeholder className={"placeHolder"}>
-                        <p>this is the about page, Temp, can add description here or delete section</p>
-                    </Segment>
+                    {/*<Segment placeholder className={"placeHolder"}>*/}
+                    {/*    <p>this is the about page, Temp, can add description here or delete section</p>*/}
+                    {/*</Segment>*/}
                     <Divider hidden/>
 
                     <Header size={'large'} color={'green'}>Project Description</Header>
-                    <Segment placeholder className={"placeHolder"}>
+                    <Segment placeholder className={"buttonHolder"}>
                         <p>Wet-Dry-Mapping is an app designed to help with the data collection process
                             associated with mapping streams. This product allows you to take GPS data points
                             while walking. During the data collection process you can say whether the stream
@@ -38,21 +38,22 @@ function About() {
                         <p>Project Technical Lead: Emma Ryden</p>
                         <p>Product Technicians: Jason Holtry, Luke Johnston, Mike Boisvert</p>
                     </Segment>
+                    <Segment bH className={"buttonHolder"}>
                     <p>
                         <Button color={'green'} onClick={() => {
                             window.location.href = "wet-dry#/"
                         }}>Back</Button>
-                        <Popup
-                            trigger={<Button color={'green'}>Help (?)</Button>}
-                            content={'TESTING'}
-                            on={'click'}
-                        />
+                        {/*<Popup*/}
+                        {/*    trigger={<Button color={'green'}>Help (?)</Button>}*/}
+                        {/*    content={'TESTING'}*/}
+                        {/*    on={'click'}*/}
+                        {/*/>*/}
 
                         <Modal
                             onClose={() => setOpen(false)}
                             onOpen={() => setOpen(true)}
                             open={open}
-                            trigger={<Button color={'green'}>Modal Help</Button>}
+                            trigger={<Button color={'green'}>Help</Button>}
                         >
                             <Modal.Header>Help for the About Page</Modal.Header>
                             <Modal.Content image>
@@ -70,6 +71,7 @@ function About() {
                             </Modal.Actions>
                         </Modal>
                     </p>
+                </Segment>
                 </div>
             );
 }
