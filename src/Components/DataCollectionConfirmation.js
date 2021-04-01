@@ -1,11 +1,26 @@
-import React from 'react';
-import { Container, Input, Table } from 'semantic-ui-react';
+import React, {useState} from 'react';
+import { Container, Input } from 'semantic-ui-react';
+import GoogleMapReact from "google-map-react";
+
 
 function Confirmation()
 {
+
+    const [currentLatitude, setCurrentLatitude] = useState();
+    const [currentLongitude, setCurrentLongitude] = useState();
+    const [date, setDate] = useState(new Date());
+
+    navigator.geolocation.watchPosition(function(position) {
+        console.log("Latitude is :", position.coords.latitude);
+        console.log("Longitude is :", position.coords.longitude);
+        setCurrentLatitude(position.coords.latitude);
+        setCurrentLongitude(position.coords.longitude);
+        // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+    });
+
     return (
-        <div className={'Confirmation'}>
-            <header className={"App-header"}>
+        <div className={'POI'}>
+            <header className={"POI"}>
                 <Container>
                     <h1 size="huge"><strong><u> Stream Data Confirmation </u></strong></h1>
                     <br></br>
@@ -22,51 +37,25 @@ function Confirmation()
                         <strong>Class/Section ID:   </strong>
                         <Input size="mini" placeholder='ID' />
                     </p>
+                    <div style={{ height: '40vh', width: '40wh' }}>
+                        <GoogleMapReact
+                            bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                            defaultCenter={{lat: currentLatitude, lng: currentLongitude}}
+                            defaultZoom={12}
+                        >
+                        </GoogleMapReact>
+                    </div>
                 </Container>
-                <br></br>
-                <Table celled>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Just messing</Table.HeaderCell>
-                            <Table.HeaderCell>with tables,</Table.HeaderCell>
-                            <Table.HeaderCell>don't mind this</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-
-                    <Table.Body>
-                        <Table.Row>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                            <Table.Cell>Cell</Table.Cell>
-                        </Table.Row>
-                    </Table.Body>
-                </Table>
+                <br/>
                 <p>
                     <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry#/"}}>
                         Back
                     </button>
                     <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
-                        Confirm
+                        Submit
+                    </button>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
+                        ?
                     </button>
                 </p>
             </header>
