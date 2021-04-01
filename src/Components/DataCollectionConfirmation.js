@@ -20,8 +20,8 @@ function Confirmation()
 
     return (
         <div className={'POI'}>
-            <header className={"App-header"}>
-                <Container className={'POI'}>
+            <header className={"POI"}>
+                <Container>
                     <h1 size="huge"><strong><u> Stream Data Confirmation </u></strong></h1>
                     <br></br>
                     <br></br>
@@ -46,10 +46,7 @@ function Confirmation()
                         </GoogleMapReact>
                     </div>
                 </Container>
-
-
-
-
+                <br/>
                 <p>
                     <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry#/"}}>
                         Back
