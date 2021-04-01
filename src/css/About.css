@@ -1,5 +1,6 @@
 .About {
     padding-top: 36px;
+    color: black;
     background-color: #93c47dff;
     min-height: 100vh;
     display: flex;
@@ -7,7 +8,6 @@
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
-    color: white;
 }
 
 .About .placeHolder {
@@ -24,6 +24,8 @@
 
 .About p {
     color: black;
+
+    max-width: 600px;
 }
 
 .About .relative {
