@@ -1,0 +1,30 @@
+.POI {
+    padding-top: 36px;
+    padding-bottom: 36px;
+    background-color: #93c47dff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .POI .placeHolder {
+    min-width: 600px;
+    height: 33vh;
+    width: 50vw;
+  }
+  
+  .POI .icon {
+    padding-left: 10px !important;
+  }
+  
+  .POI p {
+    color: black;
+  }
+  
+  .POI .relative {
+    position: relative;
+  }

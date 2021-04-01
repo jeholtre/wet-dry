@@ -1,24 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import { Button, Image, Header, Icon, Card, Placeholder, Segment, Grid, Divider, Form } from 'semantic-ui-react';
-import '../App.css';
-import logo from '../logo.svg';
+import '../css/POI.css';
+import GoogleMapReact from 'google-map-react';
 
 function POI() {
 
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
-    const [updateCoords, setUpdateCoords] = useState(false);
+    const [date, setDate] = useState(new Date());
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            setCurrentLatitude(position.coords.latitude);
-            setCurrentLongitude(position.coords.longitude);
-        })
-    }, [updateCoords]);
-
-    navigator.geolocation.watchPosition(function(position) {
+     //Should update everytime position changes
+     navigator.geolocation.watchPosition(function(position) {
         console.log("Latitude is :", position.coords.latitude);
         console.log("Longitude is :", position.coords.longitude);
+        setCurrentLatitude(position.coords.latitude);
+        setCurrentLongitude(position.coords.longitude);
+        // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
     });
 
     return (
@@ -35,12 +32,22 @@ function POI() {
                     <Button color='green'>Add Photo</Button>
                 </Segment.Inline>
             </Segment>
-            <Segment className="placeHolder">
+            <div className="placeHolder">
+                <GoogleMapReact
+                    bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                    defaultCenter={{lat: currentLatitude, lng: currentLongitude}}
+                    defaultZoom={12}
+                >
+                </GoogleMapReact>
+            </div>
+            <Segment className="placeHolder" style={{ height: "auto" }}>
                 <Form>
                     <Grid columns={2} relaxed='very'>
                         <Grid.Column>
                             <p><Header as='h5'>Location</Header>Latitude: {currentLatitude},<br></br> Longitude: {currentLongitude}</p>
-                            <p><Header as='h5'>Date</Header>MM/DD/YYYY</p>
+                            <p><Header as='h5'>Date</Header>
+                                { (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() }
+                            </p>
                             <p><Header as='h5'>Stream Name</Header>Stream Name</p>
                         </Grid.Column>
                         <Grid.Column>
