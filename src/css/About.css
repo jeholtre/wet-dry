@@ -1,0 +1,33 @@
+.About {
+    padding-top: 36px;
+    color: black;
+    background-color: #93c47dff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+}
+
+.About .placeHolder {
+    min-width: 600px;
+}
+
+.About .buttonHolder {
+    margin-inline: auto;
+}
+
+.About .icon {
+    padding-left: 10px !important;
+}
+
+.About p {
+    color: black;
+
+    max-width: 600px;
+}
+
+.About .relative {
+    position: relative;
+}
