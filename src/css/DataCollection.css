@@ -31,3 +31,27 @@
 .DataCollection .relative {
     position: relative;
 }
+
+.DataCollection .recording {
+    border-color: red;
+    border-width: 3px;
+    border-style: solid;
+    animation: blink 1s alternate infinite;
+    height: 51vh;
+}
+.DataCollection .not-recording {
+    height: 50vh;
+}
+
+.DataCollection .map {
+    height: 50vh;
+
+}
+.DataCollection inline-buttons {
+    display: inline-block;
+}
+@keyframes blink{
+    0%{opacity: .25;}
+    50%{opacity: .75;}
+    100%{opacity: 1;}
+}

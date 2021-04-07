@@ -16,7 +16,6 @@ const Main = () => {
             <Route exact path='/' component={Home}/>
             <Route path='/Login' component={Login}/>
             <Route path='/About' component={About}/>
-            {/*<Route path='/POI' component={POI}/>*/}
             <Route path='/DataCollection' component={DataCollection}/>
             <Route path='/DataCollectionConfirmation' component={DataCollectionConfirmation}/>
             <Route path='/PrelimDataAcq' component={PrelimDataAcq}/>

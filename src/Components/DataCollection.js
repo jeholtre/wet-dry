@@ -3,7 +3,7 @@ import '../App.css';
 import '../css/DataCollection.css'
 import {MyCarousel} from "./Home";
 import 'semantic-ui-css/semantic.min.css';
-import  {Button,Header, Icon, Segment} from "semantic-ui-react";
+import {Button, Header, Icon, Modal, Popup, Segment} from "semantic-ui-react";
 import { usePosition } from 'use-position';
 import {LiveLocation} from "./LiveLocation";
 import GoogleMapReact from 'google-map-react';
@@ -14,8 +14,11 @@ function DataCollection() {
     const [trail, setTrail] = useState([]);
     const [updateCoords, setUpdateCoords] = useState(false);
     const [recording, setRecording] = useState(false);
-    const [isWet, setIsWet] = useState(null);
+    const [started, setStarted] = useState(false);
+    const [showHelp, setShowHelp] = useState(false);
     const [ripplePool, setRipplePool] = useState(null);
+    const [finishModal, setFinishModal] = useState(false);
+    const [initialStateModal, setInitialStateModal] = useState(false);
 
 
     //Should update everytime position changes
@@ -36,60 +39,151 @@ function DataCollection() {
             <Segment placeholder className="placeHolder">
                 <Header>
                     <div>
-                        <Button onClick={() => {
-                            if(isWet == null || ripplePool == null) {
-                                window.alert("Please input initial wet/dry and ripple/pool values");
+                        <Popup
+                            content={'The button starts and pauses the recording!'}
+                            open={showHelp}
+                            position="right center"
+                            trigger={
+                        <Button color={recording ? "red" : "green"} onClick={() => {
+                            if( ripplePool == null) {
+                                setInitialStateModal(true);
                             } else {
                                 setRecording(!recording);
+                                setStarted(true);
                             }
                         }}>
-                            {recording ? <Icon name="pause"/> :  <Icon name="play"/>}
+                            {recording ? "Pause Recording" :  (started ? "Resume Recording" : "Start Recording")}
                         </Button>
-                        <Button  type={"button"} onClick={()=> {
-                            window.alert("Are you sure you want to stop recording?");
-                        }}>
-                            <Icon name="stop"/>
-                        </Button>
+                        }
+                        />
+
                     </div>
+                    <Icon onClick={() => {
+                        setShowHelp(!showHelp)
+                    }} name={"question circle outline"}/>
                 </Header>
-                <div style={{ height: '50vh', width: '50wh' }}>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
-                    defaultCenter={{lat: currentLatitude, lng: currentLongitude}}
-                    defaultZoom={12}
-                >
-                </GoogleMapReact>
+                <div className={recording ? "recording" : "not-recording"}>
+                    <div className="map">
+                        <Popup
+                            content={'Recording is paused'}
+                            open={(!recording && started)}
+                            position={"top center"}
+                            trigger={
+                        <GoogleMapReact
+                            bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                            defaultCenter={{lat: currentLatitude, lng: currentLongitude}}
+                            defaultZoom={12}
+                        >
+                        </GoogleMapReact>}/>
+                    </div>
                 </div>
                 <div>
-                    <div className="ui buttons">
+                    <Popup
+                        content={'Toggle the current state of the river here!'}
+                        open={showHelp}
+                        position="top center"
+                        trigger={
+                    <div className="ui buttons three wide">
                         <button onClick={() => {
                             setRipplePool(0);
                         }} className={`ui button ${ripplePool == 0 ? "active" : ""}`}>Ripple</button>
                         <button onClick={() => {
                             setRipplePool(1);
-                        }} className={`ui button ${ripplePool == 1 ? "active" : ""}`}>Neither</button>
+                        }} className={`ui button ${ripplePool == 1 ? "active" : ""}`}>Dry</button>
                         <button onClick={() => {
                             setRipplePool(2);
                         }} className={`ui button ${ripplePool == 2 ? "active" : ""}`}>Pool</button>
-                    </div>
+                    </div> } />
                 </div>
-                <div>
-                    <div className="ui buttons">
-                        <button onClick={() => {
-                            setIsWet(0);
-                        }} className={`ui button ${isWet == 0 ? "active" : ""}`}>Wet</button>
-                        <button onClick={() => {
-                            setIsWet(1);
-                        }} className={`ui button ${isWet == 1 ? "active" : ""}`}>Dry</button>
-                    </div>
-                </div>
+
                 <LiveLocation />
-                <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/POI"}}>
+                <div className={"ui buttons three wide"}>
+
+                    <Popup
+                        content={'Press this button to add a point of interest at your current location!'}
+                        open={showHelp}
+                        position="bottom center"
+                        trigger={
+                    <Button color={"green"} type={"button"} onClick={() => {window.location.href = "/#/POI"}}>
                         Add POI
-                    </button>
-                </p>
+                    </Button>}/>
+                    { started &&
+                    <Popup
+                        content={"When you're finished, press this button!"}
+                        open={showHelp}
+                        position="bottom center"
+                        trigger={
+                    <Button color={"red"} type={"button"} onClick={()=> {
+                        setFinishModal(true);
+                    }}>
+                        Finish Recording
+                    </Button>}/>}
+
+                </div>
+
             </Segment>
+            <Modal
+                basic
+                onClose={() => setInitialStateModal(false)}
+                open={initialStateModal}
+                size='small'
+            >
+                <Header icon>
+                    <Icon name='exclamation triangle' />
+                    Please set the initial state of the river!
+                </Header>
+                <Modal.Actions>
+                    <Button basic color='green' inverted onClick={() => {
+                        setInitialStateModal(false)
+                        setRipplePool(0);
+                        setRecording(true);
+                        setStarted(true);
+                    }} className={`ui button ${ripplePool == 0 ? "active" : ""}`}>Ripple</Button>
+                    <Button basic color='green' inverted onClick={() => {
+                        setInitialStateModal(false)
+                        setRipplePool(1);
+                        setRecording(true);
+                        setStarted(true);
+                    }} className={`ui button ${ripplePool == 1 ? "active" : ""}`}>Dry</Button>
+                    <Button basic color='green' inverted onClick={() => {
+                        setInitialStateModal(false)
+                        setRipplePool(2);
+                        setRecording(true);
+                        setStarted(true);
+                    }} className={`ui button ${ripplePool == 2 ? "active" : ""}`}>Pool</Button>
+                    <Button basic color='red' inverted onClick={() => setInitialStateModal(false)}>
+                        <Icon name='remove' /> Back
+                    </Button>
+                </Modal.Actions>
+            </Modal>
+            <Modal
+                basic
+                onClose={() => setFinishModal(false)}
+                open={finishModal}
+                size='small'>
+                <Header icon>
+                    <Icon name='exclamation triangle' />
+                    Finish Recording?
+                </Header>
+                <Modal.Content>
+                    <p>
+                        Once you confirm on the next page, you will be unable to return to this trail.
+                    </p>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button basic color='red' inverted onClick={() => setFinishModal(false)}>
+                        <Icon name='remove' /> No
+                    </Button>
+                    <Button color='green' inverted onClick={() => {
+                        setFinishModal(false);
+                        window.location.href = "/#/DataCollectionConfirmation";
+                    }}>
+                        <Icon name='checkmark' /> Yes
+                    </Button>
+                </Modal.Actions>
+            </Modal>
+
+
         </div>
     );
 };

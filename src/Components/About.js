@@ -36,7 +36,7 @@ function About() {
                         <p>Streamers App Development Team:</p>
                         <p>Product Owner: Zong Deng</p>
                         <p>Project Technical Lead: Emma Ryden</p>
-                        <p>Product Technicians: Jason Holtry, Luke Johnston, Mike Boisvert</p>
+                        <p>Product Technicians: Jason Holtrey, Luke Johnston, Mike Boisvert</p>
                     </Segment>
                     <Segment bH className={"buttonHolder"}>
                     <p>
