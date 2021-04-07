@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Container, Input } from 'semantic-ui-react';
+import {Button, Container, Input, Modal} from 'semantic-ui-react';
 import GoogleMapReact from "google-map-react";
 
 
@@ -17,7 +17,7 @@ function Confirmation()
         setCurrentLongitude(position.coords.longitude);
         // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
     });
-
+    const [open, setOpen] = React.useState(false)
     return (
         <div className={'POI'}>
             <header className={"POI"}>
@@ -57,6 +57,27 @@ function Confirmation()
                     <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
                         ?
                     </button>
+                    <Button color={'green'} onClick={() => {window.location.href = "wet-dry#/"}}>Submit/Home</Button>
+                    <Modal
+                        onClose={() => setOpen(false)}
+                        onOpen={() => setOpen(true)}
+                        open={open}
+                        trigger={<Button color={'green'}>Help</Button>}
+                    >
+                        <Modal.Header>Help for the Data Collection Confirmation Page</Modal.Header>
+                        <Modal.Content image>
+                            <Modal.Description>
+                                <p>
+                                    DATA COLLECTION CONFIRMATION PAGE HELP WIP
+                                </p>
+                            </Modal.Description>
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button color='green' onClick={() => setOpen(false)}>
+                                Close Popup
+                            </Button>
+                        </Modal.Actions>
+                    </Modal>
                 </p>
             </header>
         </div>

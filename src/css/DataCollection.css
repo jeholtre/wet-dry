@@ -45,7 +45,7 @@
 
 .DataCollection .map {
     height: 50vh;
-
+    /*padding-top: 36px;*/
 }
 .DataCollection inline-buttons {
     display: inline-block;

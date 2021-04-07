@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Button, Image, Reveal } from 'semantic-ui-react';
+import {Button, Image, Reveal, Segment} from 'semantic-ui-react';
 import Main from "../routes";
 import '../App.css';
 import logo from '../logo.svg';
@@ -42,6 +42,12 @@ function Home() {
                 </p>
                 <MyCarousel/>
 
+                <Segment Real>
+                    <Button color={'green'} onClick={() => {window.location.href = "wet-dry/#/PrelimDataAcq"}}>Start</Button>
+                    <Button color={'green'} onClick={() => {window.location.href = "wet-dry/#/About"}}>About</Button>
+                </Segment>
+
+                <Segment debugging>
                 <p>
                     <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/DataCollection"}}>
                         Data Collection
@@ -63,6 +69,7 @@ function Home() {
                         POI Page
                     </button>
                 </p>
+                </Segment>
             </header>
         </div>
     );
