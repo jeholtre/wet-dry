@@ -43,29 +43,29 @@ function Home() {
                 <MyCarousel/>
 
                 <Segment Real>
-                    <Button color={'green'} onClick={() => {window.location.href = "wet-dry/#/PrelimDataAcq"}}>Start</Button>
-                    <Button color={'green'} onClick={() => {window.location.href = "wet-dry/#/About"}}>About</Button>
+                    <Button color={'green'} onClick={() => {window.location.href = "/#/PrelimDataAcq"}}>Start</Button>
+                    <Button color={'green'} onClick={() => {window.location.href = "/#/About"}}>About</Button>
                 </Segment>
 
                 <Segment debugging>
                 <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/DataCollection"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/DataCollection"}}>
                         Data Collection
                     </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/About"}}>
                         About
                     </button>
                 </p>
                 <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/PrelimDataAcq"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/PrelimDataAcq"}}>
                         Preliminary Data Aqc. Page
                     </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/DataCollectionConfirmation"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/DataCollectionConfirmation"}}>
                         DataCollectionConfirmation Page
                     </button>
                 </p>
                 <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/POI"}}>
+                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#/POI"}}>
                         POI Page
                     </button>
                 </p>
