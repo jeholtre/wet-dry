@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/wet-dry/static/css/main.a95cdb84.chunk.css",
-    "main.js": "/wet-dry/static/js/main.a9f97e7b.chunk.js",
-    "main.js.map": "/wet-dry/static/js/main.a9f97e7b.chunk.js.map",
+    "main.js": "/wet-dry/static/js/main.fb6073b6.chunk.js",
+    "main.js.map": "/wet-dry/static/js/main.fb6073b6.chunk.js.map",
     "runtime-main.js": "/wet-dry/static/js/runtime-main.21604b59.js",
     "runtime-main.js.map": "/wet-dry/static/js/runtime-main.21604b59.js.map",
     "static/css/2.30a2212e.chunk.css": "/wet-dry/static/css/2.30a2212e.chunk.css",
@@ -23,6 +23,6 @@
     "static/css/2.30a2212e.chunk.css",
     "static/js/2.9cd2cd1e.chunk.js",
     "static/css/main.a95cdb84.chunk.css",
-    "static/js/main.a9f97e7b.chunk.js"
+    "static/js/main.fb6073b6.chunk.js"
   ]
 }
