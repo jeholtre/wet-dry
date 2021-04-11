@@ -48,16 +48,16 @@ function Confirmation()
                 </Container>
                 <br/>
                 <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry#/"}}>
-                        Back
-                    </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
-                        Submit
-                    </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "wet-dry/#/About"}}>
-                        ?
-                    </button>
-                    <Button color={'green'} onClick={() => {window.location.href = "wet-dry#/"}}>Submit/Home</Button>
+                    {/*<button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#"}}>*/}
+                    {/*    Back*/}
+                    {/*</button>*/}
+                    {/*<button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/About"}}>*/}
+                    {/*    Submit*/}
+                    {/*</button>*/}
+                    {/*<button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/About"}}>*/}
+                    {/*    ?*/}
+                    {/*</button>*/}
+                    <Button color={'green'} onClick={() => {window.location.href = "/"}}>Submit/Home</Button>
                     <Modal
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}

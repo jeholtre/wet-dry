@@ -104,7 +104,7 @@ function DataCollection() {
                         open={showHelp}
                         position="bottom center"
                         trigger={
-                    <Button color={"green"} type={"button"} onClick={() => {window.location.href = "/#/POI"}}>
+                    <Button color={"green"} type={"button"} onClick={() => {window.location.href = "#/POI"}}>
                         Add POI
                     </Button>}/>
                     { started &&
@@ -176,7 +176,7 @@ function DataCollection() {
                     </Button>
                     <Button color='green' inverted onClick={() => {
                         setFinishModal(false);
-                        window.location.href = "/#/DataCollectionConfirmation";
+                        window.location.href = "#/DataCollectionConfirmation";
                     }}>
                         <Icon name='checkmark' /> Yes
                     </Button>
