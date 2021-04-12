@@ -1,28 +1,17 @@
 {
   "files": {
-<<<<<<< HEAD
-    "main.css": "/wet-dry/static/css/main.1751f41f.chunk.css",
-    "main.js": "/wet-dry/static/js/main.ced479fb.chunk.js",
-    "main.js.map": "/wet-dry/static/js/main.ced479fb.chunk.js.map",
-=======
-    "main.css": "/wet-dry/static/css/main.9176ff04.chunk.css",
-    "main.js": "/wet-dry/static/js/main.2a809c35.chunk.js",
-    "main.js.map": "/wet-dry/static/js/main.2a809c35.chunk.js.map",
->>>>>>> a9d60875286cf512b08808b2550900ca864405ab
+    "main.css": "/wet-dry/static/css/main.64e5d722.chunk.css",
+    "main.js": "/wet-dry/static/js/main.19cb522a.chunk.js",
+    "main.js.map": "/wet-dry/static/js/main.19cb522a.chunk.js.map",
     "runtime-main.js": "/wet-dry/static/js/runtime-main.21604b59.js",
     "runtime-main.js.map": "/wet-dry/static/js/runtime-main.21604b59.js.map",
     "static/css/2.a894c1ae.chunk.css": "/wet-dry/static/css/2.a894c1ae.chunk.css",
-    "static/js/2.d3088403.chunk.js": "/wet-dry/static/js/2.d3088403.chunk.js",
-    "static/js/2.d3088403.chunk.js.map": "/wet-dry/static/js/2.d3088403.chunk.js.map",
+    "static/js/2.cb7c1d27.chunk.js": "/wet-dry/static/js/2.cb7c1d27.chunk.js",
+    "static/js/2.cb7c1d27.chunk.js.map": "/wet-dry/static/js/2.cb7c1d27.chunk.js.map",
     "index.html": "/wet-dry/index.html",
     "static/css/2.a894c1ae.chunk.css.map": "/wet-dry/static/css/2.a894c1ae.chunk.css.map",
-<<<<<<< HEAD
-    "static/css/main.1751f41f.chunk.css.map": "/wet-dry/static/css/main.1751f41f.chunk.css.map",
+    "static/css/main.64e5d722.chunk.css.map": "/wet-dry/static/css/main.64e5d722.chunk.css.map",
     "static/js/2.cb7c1d27.chunk.js.LICENSE.txt": "/wet-dry/static/js/2.cb7c1d27.chunk.js.LICENSE.txt",
-=======
-    "static/css/main.9176ff04.chunk.css.map": "/wet-dry/static/css/main.9176ff04.chunk.css.map",
-    "static/js/2.d3088403.chunk.js.LICENSE.txt": "/wet-dry/static/js/2.d3088403.chunk.js.LICENSE.txt",
->>>>>>> a9d60875286cf512b08808b2550900ca864405ab
     "static/media/semantic.min.css": "/wet-dry/static/media/outline-icons.ddae9b1b.woff",
     "static/media/logo.6ce24c58.svg": "/wet-dry/static/media/logo.6ce24c58.svg",
     "static/media/river1.51056941.jfif": "/wet-dry/static/media/river1.51056941.jfif",
@@ -32,14 +21,8 @@
   "entrypoints": [
     "static/js/runtime-main.21604b59.js",
     "static/css/2.a894c1ae.chunk.css",
-<<<<<<< HEAD
     "static/js/2.cb7c1d27.chunk.js",
-    "static/css/main.1751f41f.chunk.css",
-    "static/js/main.ced479fb.chunk.js"
-=======
-    "static/js/2.d3088403.chunk.js",
-    "static/css/main.9176ff04.chunk.css",
-    "static/js/main.2a809c35.chunk.js"
->>>>>>> a9d60875286cf512b08808b2550900ca864405ab
+    "static/css/main.64e5d722.chunk.css",
+    "static/js/main.19cb522a.chunk.js"
   ]
 }
