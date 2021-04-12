@@ -19,15 +19,15 @@ function PrelimDataAcq()
                     <Form.Input label = 'Class/Section ID:' placeholder='#######'/>
                 </Form>
                 <Button color={'green'} onClick={() => {
-                    window.location.href = "/"}}>back {/* Funny it send to address '/#/' */}
+                    window.location.href = "#/"}}>back {/* Funny it send to address '/#/' */}
                 </Button>
                 <Button color={'green'}  onClick={() => {
                     window.location.href = "#/DataCollection"}}>Submit
                 </Button>
-                <button className={"App-button"} type={"button"} onClick={() => {
-                    window.location.href = "#/About"}}>
-                    ?
-                </button>
+                {/*<button className={"App-button"} type={"button"} onClick={() => {*/}
+                {/*    window.location.href = "#/About"}}>*/}
+                {/*    ?*/}
+                {/*</button>*/}
                 <Modal
                     onClose={() => setOpen(false)}
                     onOpen={() => setOpen(true)}

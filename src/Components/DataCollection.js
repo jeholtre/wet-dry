@@ -18,6 +18,7 @@ function DataCollection() {
     const [showHelp, setShowHelp] = useState(false);
     const [ripplePool, setRipplePool] = useState(null);
     const [finishModal, setFinishModal] = useState(false);
+    const [pauseModal, setPauseModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
     const [updateTime, setUpdateTime] = useState(1000);
 
@@ -30,13 +31,14 @@ function DataCollection() {
                 let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
                 setTrail(trail => [...trail, p]);
             });
-             console.log("beep");
-            console.log({trail});
+            localStorage.setItem("trail", JSON.stringify(trail));
+            console.log("beep");
         }, updateTime);
         return () => clearInterval(interval);
     }, []);
 
 
+    console.log({trail});
     return (
         <div className="DataCollection">
             <Header as='h1' textAlign='center' paddingTop="10px">
@@ -180,12 +182,35 @@ function DataCollection() {
                     <Button basic color='red' inverted onClick={() => setFinishModal(false)}>
                         <Icon name='remove' /> No
                     </Button>
-                    <CSVLink data={trail}>Download me</CSVLink>;
+                    {/*<CSVLink data={trail}>Download me</CSVLink>;*/}
                     <Button color='green' inverted onClick={() => {
                         setFinishModal(false);
+                        console.log("submit");
                         window.location.href = "#/DataCollectionConfirmation";
                     }}>
                         <Icon name='checkmark' /> Yes
+                    </Button>
+                </Modal.Actions>
+            </Modal>
+
+
+            <Modal
+                basic
+                onClose={() => setPauseModal(false)}
+                open={pauseModal}
+                size='small'>
+                <Header icon>
+                    <Icon name='exclamation triangle' />
+                    Paused
+                </Header>
+                <Modal.Content>
+                    <p>
+                        If you're going to be gone for sometime, consider submitting your data now to prevent any loss of data!
+                    </p>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button basic color='red' inverted onClick={() => setPauseModal(false)}>
+                        <Icon name='remove' /> Close
                     </Button>
                 </Modal.Actions>
             </Modal>
