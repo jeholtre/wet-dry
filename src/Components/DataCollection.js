@@ -1,35 +1,41 @@
 import React, {useEffect, useState} from 'react';
 import '../App.css';
 import '../css/DataCollection.css'
-import {MyCarousel} from "./Home";
 import 'semantic-ui-css/semantic.min.css';
 import {Button, Header, Icon, Modal, Popup, Segment} from "semantic-ui-react";
-import { usePosition } from 'use-position';
 import {LiveLocation} from "./LiveLocation";
 import GoogleMapReact from 'google-map-react';
+import { CSVLink, CSVDownload } from "react-csv";
+
 
 function DataCollection() {
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
     const [trail, setTrail] = useState([]);
-    const [updateCoords, setUpdateCoords] = useState(false);
+    //const [updateCoords, setUpdateCoords] = useState(false);
     const [recording, setRecording] = useState(false);
     const [started, setStarted] = useState(false);
     const [showHelp, setShowHelp] = useState(false);
     const [ripplePool, setRipplePool] = useState(null);
     const [finishModal, setFinishModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
-
+    const [updateTime, setUpdateTime] = useState(1000);
 
     //Should update everytime position changes
-    navigator.geolocation.watchPosition(function(position) {
-        console.log("Latitude is :", position.coords.latitude);
-        console.log("Longitude is :", position.coords.longitude);
-        setCurrentLatitude(position.coords.latitude);
-        setCurrentLongitude(position.coords.longitude);
-        let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
-        setTrail([...trail, p]);
-    });
+    useEffect(()=> {
+        const interval = setInterval(  () => {
+            navigator.geolocation.getCurrentPosition( function(position) {
+                setCurrentLatitude(position.coords.latitude);
+                setCurrentLongitude(position.coords.longitude);
+                let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+                setTrail(trail => [...trail, p]);
+            });
+             console.log("beep");
+            console.log({trail});
+        }, updateTime);
+        return () => clearInterval(interval);
+    }, []);
+
 
     return (
         <div className="DataCollection">
@@ -69,10 +75,10 @@ function DataCollection() {
                             open={(!recording && started)}
                             position={"top center"}
                             trigger={
-                        <GoogleMapReact
+                                currentLatitude && currentLongitude && <GoogleMapReact
                             bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
-                            defaultCenter={{lat: currentLatitude, lng: currentLongitude}}
-                            defaultZoom={12}
+                            center={{lat: currentLatitude, lng: currentLongitude}}
+                            defaultZoom={14}
                         >
                         </GoogleMapReact>}/>
                     </div>
@@ -174,6 +180,7 @@ function DataCollection() {
                     <Button basic color='red' inverted onClick={() => setFinishModal(false)}>
                         <Icon name='remove' /> No
                     </Button>
+                    <CSVLink data={trail}>Download me</CSVLink>;
                     <Button color='green' inverted onClick={() => {
                         setFinishModal(false);
                         window.location.href = "#/DataCollectionConfirmation";

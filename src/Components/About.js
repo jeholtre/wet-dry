@@ -41,7 +41,7 @@ function About() {
                     <Segment bH className={"buttonHolder"}>
                     <p>
                         <Button color={'green'} onClick={() => {
-                            window.location.href = "wet-dry#/"
+                            window.location.href = "#/"
                         }}>Back</Button>
                         {/*<Popup*/}
                         {/*    trigger={<Button color={'green'}>Help (?)</Button>}*/}

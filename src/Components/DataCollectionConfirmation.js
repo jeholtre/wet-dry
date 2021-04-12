@@ -5,7 +5,6 @@ import GoogleMapReact from "google-map-react";
 
 function Confirmation()
 {
-
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
     const [date, setDate] = useState(new Date());
@@ -57,7 +56,7 @@ function Confirmation()
                     {/*<button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/About"}}>*/}
                     {/*    ?*/}
                     {/*</button>*/}
-                    <Button color={'green'} onClick={() => {window.location.href = "/"}}>Submit/Home</Button>
+                    <Button color={'green'} onClick={() => {window.location.href = "#/"}}>Submit/Home</Button>
                     <Modal
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}
