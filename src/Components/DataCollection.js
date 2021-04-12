@@ -18,7 +18,7 @@ function DataCollection() {
     const [showHelp, setShowHelp] = useState(false);
     const [ripplePool, setRipplePool] = useState(null);
     const [finishModal, setFinishModal] = useState(false);
-    const [pauseModal, setPauseModal] = useState(false); //
+    const [pauseModal, setPauseModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
     const [updateTime, setUpdateTime] = useState(1000);
 
@@ -46,6 +46,7 @@ function DataCollection() {
         }, [...deps, fn, getDep()]);
     }
 
+
     useRecordTrailPoint(() => {
         const interval = setInterval(  () => {
             navigator.geolocation.getCurrentPosition( async function(position) {
@@ -66,6 +67,7 @@ function DataCollection() {
     const handleApiLoaded = (map, maps) => {
         // use map and maps objects
         setLoading(false);
+        console.log("?")
         navigator.geolocation.getCurrentPosition( function(position) {
             setCurrentLatitude(position.coords.latitude);
             setCurrentLongitude(position.coords.longitude);
@@ -79,7 +81,7 @@ function DataCollection() {
     return (
         <div className="DataCollection">
             <Header as='h1' textAlign='center' paddingTop="10px">
-                <Header.Content>Time to record!<Icon name='location arrow' className="icon"/></Header.Content>
+                <Header.Content>Press Start To Begin Recording!<Icon name='location arrow' className="icon"/></Header.Content>
             </Header>
             <Segment placeholder className="placeHolder">
                 <Header>
@@ -112,13 +114,18 @@ function DataCollection() {
                 </Header>
                 <div className={recording ? "recording" : "not-recording"}>
                     <div className="map">
+                        <Popup
+                            content={'Recording is paused.'}
+                            open={(!recording && started)}
+                            position={"bottom center"}
+                            trigger={
                             <GoogleMapReact
                             bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
                             center={{lat: currentLatitude, lng: currentLongitude}}
                             onGoogleApiLoaded={handleApiLoaded}
                             defaultZoom={14}
                         >
-                        </GoogleMapReact>
+                        </GoogleMapReact>}/>
                         { loading ?
                             <div className="loaderWrapper">
                                 <Loader active></Loader>
@@ -148,7 +155,7 @@ function DataCollection() {
                     </div> } />
                 </div>
 
-                <LiveLocation />
+                <p>Current Location: {currentLatitude}, {currentLongitude}</p>
                 <div className={"ui buttons three wide"}>
 
                     <Popup
