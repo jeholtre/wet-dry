@@ -23,14 +23,14 @@ function About() {
                         </p>
                     </Segment>
                     <Divider hidden/>
-                    <Header size={'large'} color={'black'}>Frequently Asked Questions</Header>
-                    <Segment placeholder className={"placeHolder"}>
-                        <p>FAQ:</p>
-                        <p>Q1:" Temp "</p>
-                        <p>A1:" Temp "</p>
-                    </Segment>
+                    {/*<Header size={'large'} color={'black'}>Frequently Asked Questions</Header>*/}
+                    {/*<Segment placeholder className={"placeHolder"}>*/}
+                    {/*    <p>FAQ:</p>*/}
+                    {/*    <p>Q1:" Temp "</p>*/}
+                    {/*    <p>A1:" Temp "</p>*/}
+                    {/*</Segment>*/}
 
-                    <Divider hidden/>
+                    {/*<Divider hidden/>*/}
                     <Header size={'large'} color={'black'}>Credits</Header>
                     <Segment placeholder className={"placeHolder"}>
                         <p>Streamers App Development Team:</p>
@@ -41,7 +41,7 @@ function About() {
                     <Segment bH className={"buttonHolder"}>
                     <p>
                         <Button color={'green'} onClick={() => {
-                            window.location.href = "wet-dry#/"
+                            window.location.href = "#/"
                         }}>Back</Button>
                         {/*<Popup*/}
                         {/*    trigger={<Button color={'green'}>Help (?)</Button>}*/}

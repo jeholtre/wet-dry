@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {Button, Container, Input, Modal} from 'semantic-ui-react';
+import {Button, Container, Header, Icon, Input, Modal} from 'semantic-ui-react';
 import GoogleMapReact from "google-map-react";
+import {CSVLink} from "react-csv";
 
 
 function Confirmation()
 {
-
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
     const [date, setDate] = useState(new Date());
@@ -18,9 +18,10 @@ function Confirmation()
         // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
     });
     const [open, setOpen] = React.useState(false)
+    const [SubmitModal, setSubmitModal] = useState(false);
     return (
         <div className={'POI'}>
-            <header>
+            <header className={"POI"}>
                 <Container>
                     <h1 size="huge"><strong><u> Stream Data Confirmation </u></strong></h1>
                     <br></br>
@@ -48,29 +49,49 @@ function Confirmation()
                 </Container>
                 <br/>
                 <p>
-                    {/*<button className={"App-button"} type={"button"} onClick={() => {window.location.href = "/#"}}>*/}
-                    {/*    Back*/}
-                    {/*</button>*/}
-                    {/*<button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/About"}}>*/}
-                    {/*    Submit*/}
-                    {/*</button>*/}
-                    {/*<button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/About"}}>*/}
-                    {/*    ?*/}
-                    {/*</button>*/}
-                    <Button color={'green'} onClick={() => {window.location.href = "/"}}>Submit</Button>
+                    <Button color={"green"} type={"button"} onClick={()=> {
+                        setSubmitModal(true);
+                    }}>
+                        Submit Data
+                    </Button>
+                    <Modal
+                        basic
+                        onClose={() => setSubmitModal(false)}
+                        open={SubmitModal}
+                        size='small'>
+                        <Header icon>
+                            <Icon name='thumbs up outline' />
+                            Success!
+                        </Header>
+                        <Modal.Content>
+                            <p>
+                                Your CSV File has been successfully uploaded to the associated Google Drive, Return to the home page?
+                            </p>
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button basic color='red' inverted onClick={() => setSubmitModal(false)}>
+                                <Icon name='remove' /> No
+                            </Button>
+                            {/*<CSVLink data={trail}>Download me</CSVLink>;*/}
+                            <Button color='green' inverted onClick={() => {
+                                setSubmitModal(false);
+                                window.location.href = "#/";
+                            }}>
+                                <Icon name='checkmark' /> Yes
+                            </Button>
+                        </Modal.Actions>
+                    </Modal>
                     <Modal
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}
                         open={open}
                         trigger={<Button color={'green'}>Help</Button>}
                     >
-                        <Modal.Header>Help for the Data Confirmation Page</Modal.Header>
+                        <Modal.Header>Help for the Data Collection Confirmation Page</Modal.Header>
                         <Modal.Content image>
                             <Modal.Description>
                                 <p>
-                                    If you need to make changes to your Stream name, section, or class ID you can do
-                                    that in the provided fields.  <br/>You can track your trail to make sure it is accurate,
-                                    and if everything looks good you click on the Submit button to save the trail.
+                                    DATA COLLECTION CONFIRMATION PAGE HELP WIP
                                 </p>
                             </Modal.Description>
                         </Modal.Content>

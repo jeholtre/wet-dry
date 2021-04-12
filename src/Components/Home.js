@@ -47,29 +47,29 @@ function Home() {
                     <Button color={'green'} onClick={() => {window.location.href = "#/About"}}>About</Button>
                 </Segment>
 
-                <Segment debugging>
-                <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/DataCollection"}}>
-                        Data Collection
-                    </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/About"}}>
-                        About
-                    </button>
-                </p>
-                <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/PrelimDataAcq"}}>
-                        Preliminary Data Aqc. Page
-                    </button>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/DataCollectionConfirmation"}}>
-                        DataCollectionConfirmation Page
-                    </button>
-                </p>
-                <p>
-                    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/POI"}}>
-                        POI Page
-                    </button>
-                </p>
-                </Segment>
+                {/*<Segment debugging>*/}
+                {/*<p>*/}
+                {/*    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/DataCollection"}}>*/}
+                {/*        Data Collection*/}
+                {/*    </button>*/}
+                {/*    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/About"}}>*/}
+                {/*        About*/}
+                {/*    </button>*/}
+                {/*</p>*/}
+                {/*<p>*/}
+                {/*    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/PrelimDataAcq"}}>*/}
+                {/*        Preliminary Data Aqc. Page*/}
+                {/*    </button>*/}
+                {/*    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/DataCollectionConfirmation"}}>*/}
+                {/*        DataCollectionConfirmation Page*/}
+                {/*    </button>*/}
+                {/*</p>*/}
+                {/*<p>*/}
+                {/*    <button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/POI"}}>*/}
+                {/*        POI Page*/}
+                {/*    </button>*/}
+                {/*</p>*/}
+                {/*</Segment>*/}
             </header>
         </div>
     );
