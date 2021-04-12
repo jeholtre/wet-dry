@@ -31,7 +31,6 @@ function DataCollection() {
                 let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
                 setTrail(trail => [...trail, p]);
             });
-            localStorage.setItem("trail", JSON.stringify(trail));
             console.log("beep");
         }, updateTime);
         return () => clearInterval(interval);
@@ -112,7 +111,10 @@ function DataCollection() {
                         open={showHelp}
                         position="bottom center"
                         trigger={
-                    <Button color={"green"} type={"button"} onClick={() => {window.location.href = "#/POI"}}>
+                    <Button color={"green"} type={"button"} onClick={() => {
+                        localStorage.setItem("trail", JSON.stringify(trail));
+                        window.location.href = "#/POI"
+                    }}>
                         Add POI
                     </Button>}/>
                     { started &&
