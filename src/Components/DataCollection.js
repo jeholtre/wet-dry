@@ -18,7 +18,7 @@ function DataCollection() {
     const [showHelp, setShowHelp] = useState(false);
     const [ripplePool, setRipplePool] = useState(null);
     const [finishModal, setFinishModal] = useState(false);
-    const [pauseModal, setPauseModal] = useState(false);
+    const [pauseModal, setPauseModal] = useState(false); //
     const [initialStateModal, setInitialStateModal] = useState(false);
     const [updateTime, setUpdateTime] = useState(1000);
 
@@ -46,7 +46,6 @@ function DataCollection() {
         }, [...deps, fn, getDep()]);
     }
 
-
     useRecordTrailPoint(() => {
         const interval = setInterval(  () => {
             navigator.geolocation.getCurrentPosition( async function(position) {
@@ -67,7 +66,6 @@ function DataCollection() {
     const handleApiLoaded = (map, maps) => {
         // use map and maps objects
         setLoading(false);
-        console.log("?")
         navigator.geolocation.getCurrentPosition( function(position) {
             setCurrentLatitude(position.coords.latitude);
             setCurrentLongitude(position.coords.longitude);
