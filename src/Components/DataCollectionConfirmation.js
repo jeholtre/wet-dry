@@ -53,8 +53,36 @@ function Confirmation()
                         }}>
                             Submit Data
                         </Button>
+
+                        {/*Help button */}
+                        <Modal
+                            onClose={() => setOpen(false)}
+                            onOpen={() => setOpen(true)}
+                            open={open}
+                            trigger={<Button color={'green'}>Help</Button>}
+                        >
+                            <Modal.Header>Help for the Data Collection Confirmation Page</Modal.Header>
+                            <Modal.Content image>
+                                <Modal.Description>
+                                    <p>
+                                        DATA COLLECTION CONFIRMATION PAGE HELP WIP
+                                    </p>
+                                </Modal.Description>
+                            </Modal.Content>
+                            <Modal.Actions>
+                                <Button color='green' onClick={() => setOpen(false)}>
+                                    Close Popup
+                                </Button>
+                            </Modal.Actions>
+                        </Modal>
                     </Form>
                     <br/>
+                    <p>
+                        {JSON.parse(localStorage.getItem('trail')).map((c) => {
+                            console.log("Entered");
+                            return (<p> {c.latitude}, {c.longitude} </p>)
+                        })}
+                    </p>
                     <div style={{ height: '40vh', width: '40wh' }}>
                         <GoogleMapReact
                             bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
@@ -92,26 +120,7 @@ function Confirmation()
                             </Button>
                         </Modal.Actions>
                     </Modal>
-                    <Modal
-                        onClose={() => setOpen(false)}
-                        onOpen={() => setOpen(true)}
-                        open={open}
-                        trigger={<Button color={'green'}>Help</Button>}
-                    >
-                        <Modal.Header>Help for the Data Collection Confirmation Page</Modal.Header>
-                        <Modal.Content image>
-                            <Modal.Description>
-                                <p>
-                                    DATA COLLECTION CONFIRMATION PAGE HELP WIP
-                                </p>
-                            </Modal.Description>
-                        </Modal.Content>
-                        <Modal.Actions>
-                            <Button color='green' onClick={() => setOpen(false)}>
-                                Close Popup
-                            </Button>
-                        </Modal.Actions>
-                    </Modal>
+
                 </p>
             </header>
         </div>
