@@ -3,6 +3,7 @@ import { Button, Image, Header, Icon, Loader, Segment, Grid, Divider, Form } fro
 import '../css/POI.css';
 import GoogleMapReact from 'google-map-react';
 import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
 import { useHistory } from 'react-router';
 
 function POI() {
@@ -24,8 +25,8 @@ function POI() {
                 await setCurrentLatitude(position.coords.latitude);
                 setCurrentLongitude(position.coords.longitude);
                 // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
-                // setTrail(trail => [...trail, p]);
-            }, () => console.log("error"), 
+                // setTrail(trail => [...trail, p]);s
+            }, (err) => console.log(err), 
             {enableHighAccuracy: false,
                 timeout: 5000,
                 maximumAge: Infinity});
@@ -41,6 +42,7 @@ function POI() {
     function handleTakePhoto (dataUri) {
         // Do stuff with the photo...
         console.log('takePhoto');
+        setDataUri(dataUri);
     }
 
     const handleApiLoaded = (map, maps) => {
@@ -60,8 +62,19 @@ function POI() {
                 <Header.Content>Point of Interest<Icon name='rss' className="icon"/></Header.Content>
             </Header>
             { camera ? 
+                 dataUri ?
                 <Segment placeholder className="placeHolder">
-                    <Camera onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }/>
+                    <Image src={dataUri} fluid bordered className="preview"/>
+                    <Segment.Inline>
+                        {/* <Button className = "previewButton" color='green'>Use This Photo</Button> */}
+                        <Button className = "previewButton" color='red' onClick={ () => { setDataUri(''); } }>Retake Photo</Button>
+                    </Segment.Inline>
+                </Segment>
+                :
+                <Segment placeholder className="placeHolder">
+                    <Camera className="preview" 
+                        onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }
+                    />
                 </Segment>
                 :
                 <Segment placeholder className="placeHolder">
