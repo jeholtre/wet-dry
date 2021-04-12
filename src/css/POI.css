@@ -28,3 +28,12 @@
   .POI .relative {
     position: relative;
   }
+
+  .POI .loaderWrapper {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    position: relative;
+    top: -100%;
+  }
