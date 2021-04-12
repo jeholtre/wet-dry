@@ -61,7 +61,7 @@ function DataCollection() {
             // console.log({trail});
         }, updateTime);
         return () => clearInterval(interval);
-    }, [], recording);
+    }, [], true);
 
 
     const handleApiLoaded = (map, maps) => {
@@ -81,7 +81,7 @@ function DataCollection() {
     return (
         <div className="DataCollection">
             <Header as='h1' textAlign='center' paddingTop="10px">
-                <Header.Content>Press Start To Begin Recording!<Icon name='location arrow' className="icon"/></Header.Content>
+                <Header.Content>Time to record!<Icon name='location arrow' className="icon"/></Header.Content>
             </Header>
             <Segment placeholder className="placeHolder">
                 <Header>
@@ -114,18 +114,13 @@ function DataCollection() {
                 </Header>
                 <div className={recording ? "recording" : "not-recording"}>
                     <div className="map">
-                        <Popup
-                            content={'Map appears after start. (bug)'}
-                            open={(!recording && !started)}
-                            position={"top center"}
-                            trigger={
                             <GoogleMapReact
                             bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
                             center={{lat: currentLatitude, lng: currentLongitude}}
                             onGoogleApiLoaded={handleApiLoaded}
                             defaultZoom={14}
                         >
-                        </GoogleMapReact>}/>
+                        </GoogleMapReact>
                         { loading ?
                             <div className="loaderWrapper">
                                 <Loader active></Loader>
