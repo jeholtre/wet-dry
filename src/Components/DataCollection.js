@@ -61,7 +61,7 @@ function DataCollection() {
             // console.log({trail});
         }, updateTime);
         return () => clearInterval(interval);
-    }, [], recording);
+    }, [], true);
 
 
     const handleApiLoaded = (map, maps) => {
@@ -115,9 +115,9 @@ function DataCollection() {
                 <div className={recording ? "recording" : "not-recording"}>
                     <div className="map">
                         <Popup
-                            content={'Map appears after start. (bug)'}
-                            open={(!recording && !started)}
-                            position={"top center"}
+                            content={'Recording is paused.'}
+                            open={(!recording && started)}
+                            position={"bottom center"}
                             trigger={
                             <GoogleMapReact
                             bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
@@ -155,7 +155,7 @@ function DataCollection() {
                     </div> } />
                 </div>
 
-                <LiveLocation />
+                <p>Current Location: {currentLatitude}, {currentLongitude}</p>
                 <div className={"ui buttons three wide"}>
 
                     <Popup

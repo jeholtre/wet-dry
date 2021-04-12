@@ -74,7 +74,7 @@ function PrelimDataAcq()
                 </Form>
 
                 <Button color={'green'} onClick={() => {
-                    window.location.href = "/"}}>Back {/* Funny it send to address '/#/' */}
+                    window.location.href = "#/"}}>Back {/* Funny it send to address '/#/' */}
                 </Button>
 
                 <Modal
