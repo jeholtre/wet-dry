@@ -20,7 +20,7 @@ function Confirmation()
     const [open, setOpen] = React.useState(false)
     return (
         <div className={'POI'}>
-            <header className={"POI"}>
+            <header>
                 <Container>
                     <h1 size="huge"><strong><u> Stream Data Confirmation </u></strong></h1>
                     <br></br>
@@ -57,18 +57,20 @@ function Confirmation()
                     {/*<button className={"App-button"} type={"button"} onClick={() => {window.location.href = "#/About"}}>*/}
                     {/*    ?*/}
                     {/*</button>*/}
-                    <Button color={'green'} onClick={() => {window.location.href = "/"}}>Submit/Home</Button>
+                    <Button color={'green'} onClick={() => {window.location.href = "/"}}>Submit</Button>
                     <Modal
                         onClose={() => setOpen(false)}
                         onOpen={() => setOpen(true)}
                         open={open}
                         trigger={<Button color={'green'}>Help</Button>}
                     >
-                        <Modal.Header>Help for the Data Collection Confirmation Page</Modal.Header>
+                        <Modal.Header>Help for the Data Confirmation Page</Modal.Header>
                         <Modal.Content image>
                             <Modal.Description>
                                 <p>
-                                    DATA COLLECTION CONFIRMATION PAGE HELP WIP
+                                    If you need to make changes to your Stream name, section, or class ID you can do
+                                    that in the provided fields.  <br/>You can track your trail to make sure it is accurate,
+                                    and if everything looks good you click on the Submit button to save the trail.
                                 </p>
                             </Modal.Description>
                         </Modal.Content>
