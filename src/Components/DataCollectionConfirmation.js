@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Container, Header, Icon, Input, Modal} from 'semantic-ui-react';
+import {Button, Container, Form, Header, Icon, Input, Modal, Segment} from 'semantic-ui-react';
 import GoogleMapReact from "google-map-react";
 import {CSVLink} from "react-csv";
 
@@ -20,24 +20,41 @@ function Confirmation()
     const [open, setOpen] = React.useState(false)
     const [SubmitModal, setSubmitModal] = useState(false);
     return (
-        <div className={'POI'}>
-            <header className={"POI"}>
+        <div className="PrelimDataAcq">
+            <header>
                 <Container>
-                    <h1 size="huge"><strong><u> Stream Data Confirmation </u></strong></h1>
+                    <h1 size="huge"><strong> Stream Data Confirmation </strong></h1>
                     <br></br>
                     <br></br>
-                    <p>
-                        <strong>Stream:    </strong>
-                        <Input size="mini" placeholder='Stream Name'/>
-                    </p>
-                    <p>
-                        <strong>Stream Section:    </strong>
-                        <Input size="mini" placeholder='Stream Section' />
-                    </p>
-                    <p>
-                        <strong>Class/Section ID:   </strong>
-                        <Input size="mini" placeholder='ID' />
-                    </p>
+                    <Form /*onSubmit={handleSubmit}*/>
+                        <label>Name of Surveyor: </label>
+                        <Form.Input
+                            name='userName'
+                            value={localStorage.getItem('username')}
+                            //onChange={handleUsernameChange}
+                        />
+                        <label>Stream: </label>
+                        <Form.Input
+                            name='stream'
+                            value={localStorage.getItem('stream')}
+                        />
+                        <label>Stream Section: </label>
+                        <Form.Input
+                            name='streamSection'
+                            value={localStorage.getItem('streamSection')}
+                        />
+                        <label>Class/Section ID: </label>
+                        <Form.Input
+                            name='sectionID'
+                            value={localStorage.getItem('sectionID')}
+                        />
+                        <Button type="submit" color={'green'}  onClick={() => {
+                            setSubmitModal(true);
+                        }}>
+                            Submit Data
+                        </Button>
+                    </Form>
+                    <br/>
                     <div style={{ height: '40vh', width: '40wh' }}>
                         <GoogleMapReact
                             bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
@@ -49,11 +66,6 @@ function Confirmation()
                 </Container>
                 <br/>
                 <p>
-                    <Button color={"green"} type={"button"} onClick={()=> {
-                        setSubmitModal(true);
-                    }}>
-                        Submit Data
-                    </Button>
                     <Modal
                         basic
                         onClose={() => setSubmitModal(false)}
@@ -72,7 +84,6 @@ function Confirmation()
                             <Button basic color='red' inverted onClick={() => setSubmitModal(false)}>
                                 <Icon name='remove' /> No
                             </Button>
-                            {/*<CSVLink data={trail}>Download me</CSVLink>;*/}
                             <Button color='green' inverted onClick={() => {
                                 setSubmitModal(false);
                                 window.location.href = "#/";

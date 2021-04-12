@@ -22,6 +22,14 @@
     color: black;
 }
 
+.PrelimDataAcq label {
+    color: black;
+}
+
+.PrelimDataAcq h1 {
+    color: black;
+}
+
 .PrelimDataAcq .icon-button {
     background-color: transparent;
     border-color: transparent;

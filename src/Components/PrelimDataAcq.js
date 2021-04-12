@@ -1,33 +1,82 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Form, Grid, Header, Modal, Segment} from 'semantic-ui-react'
 import '../css/PrelimDataAcq.css'
 // need to add corresponding button in Home.js then edit routes as well
 // inputs down work
+
 function PrelimDataAcq()
 {
+
+    const [username, setUserName] = useState('');
+    const [stream, setStream] = useState('');
+    const [streamSection, setStreamSection] = useState('');
+    const [sectionID, setSectionID] = useState('');
     const [open, setOpen] = React.useState(false)
+
+    const handleUsernameChange = (e, {value} ) => {
+        setUserName(value)
+    };
+    const handleStreamChange = (e, {value} ) => {
+        setStream(value)
+    };
+    const handleStreamSectionChange = (e, {value} ) => {
+        setStreamSection(value)
+    };
+    const handleSectionIDChange = (e, {value} ) => {
+        setSectionID(value)
+    };
+
+    const handleSubmit = () => {
+        localStorage.setItem('username', username)
+        localStorage.setItem('stream', stream)
+        localStorage.setItem('streamSection', streamSection)
+        localStorage.setItem('sectionID', sectionID)
+        };
+
     return (
         <div className="PrelimDataAcq">
             <Header as='h1' textAlign='center' paddingTop="10px">
                 <Header.Content>Preliminary Data Acquisition</Header.Content>
             </Header>
             <Segment className = "inputAreas">
-                <Form>
-                    <Form.Input label = 'Name of Surveyor:' placeholder='you name here'/>
-                    <Form.Input label = 'Stream:' placeholder='stream name'/>
-                    <Form.Input label = 'Stream Section:' placeholder='direction branch'/>
-                    <Form.Input label = 'Class/Section ID:' placeholder='#######'/>
+                <Form onSubmit={handleSubmit}>
+                    <label>Name of Surveyor: </label>
+                    <Form.Input
+                        placeholder='Your name here'
+                        name='userName'
+                        value={username}
+                        onChange={handleUsernameChange}
+                    />
+                    <label>Stream: </label>
+                    <Form.Input
+                        placeholder='Stream name'
+                        name='stream'
+                        value={stream}
+                        onChange={handleStreamChange}
+                    />
+                    <label>Stream Section: </label>
+                    <Form.Input
+                        placeholder='Section and Direction'
+                        name='streamSection'
+                        value={streamSection}
+                        onChange={handleStreamSectionChange}
+                    />
+                    <label>Class/Section ID: </label>
+                    <Form.Input
+                        placeholder='#########'
+                        name='sectionID'
+                        value={sectionID}
+                        onChange={handleSectionIDChange}
+                    />
+                    <Button type="submit" color={'green'}  onClick={() => {
+                        window.location.href = "#/DataCollection"}}>Submit
+                    </Button>
                 </Form>
+
                 <Button color={'green'} onClick={() => {
-                    window.location.href = "/"}}>back {/* Funny it send to address '/#/' */}
+                    window.location.href = "/"}}>Back {/* Funny it send to address '/#/' */}
                 </Button>
-                <Button color={'green'}  onClick={() => {
-                    window.location.href = "#/DataCollection"}}>Submit
-                </Button>
-                <button className={"App-button"} type={"button"} onClick={() => {
-                    window.location.href = "#/About"}}>
-                    ?
-                </button>
+
                 <Modal
                     onClose={() => setOpen(false)}
                     onOpen={() => setOpen(true)}
