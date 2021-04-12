@@ -12,7 +12,7 @@
   }
   
   .POI .placeHolder {
-    min-width: 600px;
+    min-width: 400px;
     height: 33vh;
     width: 50vw;
   }
@@ -27,4 +27,33 @@
   
   .POI .relative {
     position: relative;
+  }
+
+  .POI .loaderWrapper {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    position: relative;
+    top: -100%;
+  }
+
+  .POI .preview {
+    height: inherit !important;
+    width: 100% !important;
+    object-fit: contain;
+    position: relative;
+    top: 18px;
+  }
+
+  .POI .previewButton {
+    position: relative;
+    bottom: 35px;
+  }
+
+  .POI .placeHolder video {
+    width: 100% !important;
+    object-fit: contain;
+    max-width: 434px;
+    padding-top: 5px;
   }

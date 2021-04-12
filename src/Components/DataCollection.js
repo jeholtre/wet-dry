@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import '../App.css';
 import '../css/DataCollection.css'
 import 'semantic-ui-css/semantic.min.css';
-import {Button, Header, Icon, Modal, Popup, Segment} from "semantic-ui-react";
+import {Button, Header, Icon, Loader, Modal, Popup, Segment} from "semantic-ui-react";
 import {LiveLocation} from "./LiveLocation";
 import GoogleMapReact from 'google-map-react';
 import { CSVLink, CSVDownload } from "react-csv";
@@ -18,25 +18,66 @@ function DataCollection() {
     const [showHelp, setShowHelp] = useState(false);
     const [ripplePool, setRipplePool] = useState(null);
     const [finishModal, setFinishModal] = useState(false);
+    const [pauseModal, setPauseModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
     const [updateTime, setUpdateTime] = useState(1000);
 
+    const [loading, setLoading] = useState(true);
+
     //Should update everytime position changes
-    useEffect(()=> {
+
+    function useRecordTrailPoint(fn, deps=[], isReady=true) {
+        const toggled = useRef(isReady);
+
+        const getDep = () => {
+            if (toggled.current) {
+                return 1;
+            }
+            if (isReady) {
+                toggled.current = true;
+            }
+            return 0;
+        };
+        useEffect(() => {
+            if (!isReady) {
+                return;
+            }
+            return fn();
+        }, [...deps, fn, getDep()]);
+    }
+
+
+    useRecordTrailPoint(() => {
         const interval = setInterval(  () => {
-            navigator.geolocation.getCurrentPosition( function(position) {
-                setCurrentLatitude(position.coords.latitude);
-                setCurrentLongitude(position.coords.longitude);
-                let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
-                setTrail(trail => [...trail, p]);
-            });
-             console.log("beep");
-            console.log({trail});
+            navigator.geolocation.getCurrentPosition( async function(position) {
+                    setCurrentLatitude(position.coords.latitude);
+                    setCurrentLongitude(position.coords.longitude);
+                    let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+                    setTrail(trail => [...trail, p]);
+                }, () => console.log("error"),
+                {enableHighAccuracy: false,
+                    timeout: 5000,
+                    maximumAge: Infinity});
+            // console.log({trail});
         }, updateTime);
         return () => clearInterval(interval);
-    }, []);
+    }, [], recording);
 
 
+    const handleApiLoaded = (map, maps) => {
+        // use map and maps objects
+        setLoading(false);
+        console.log("?")
+        navigator.geolocation.getCurrentPosition( function(position) {
+            setCurrentLatitude(position.coords.latitude);
+            setCurrentLongitude(position.coords.longitude);
+            // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+            // setTrail(trail => [...trail, p]);
+        });
+    };
+
+    localStorage.setItem("trail", JSON.stringify(trail));
+    console.log({trail});
     return (
         <div className="DataCollection">
             <Header as='h1' textAlign='center' paddingTop="10px">
@@ -54,6 +95,9 @@ function DataCollection() {
                             if( ripplePool == null) {
                                 setInitialStateModal(true);
                             } else {
+                                if(recording) {
+                                    setPauseModal(true);
+                                }
                                 setRecording(!recording);
                                 setStarted(true);
                             }
@@ -71,16 +115,25 @@ function DataCollection() {
                 <div className={recording ? "recording" : "not-recording"}>
                     <div className="map">
                         <Popup
-                            content={'Recording is paused'}
-                            open={(!recording && started)}
+                            content={'Map appears after start. (bug)'}
+                            open={(!recording && !started)}
                             position={"top center"}
                             trigger={
-                                currentLatitude && currentLongitude && <GoogleMapReact
+                            <GoogleMapReact
                             bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
                             center={{lat: currentLatitude, lng: currentLongitude}}
+                            onGoogleApiLoaded={handleApiLoaded}
                             defaultZoom={14}
                         >
                         </GoogleMapReact>}/>
+                        { loading ?
+                            <div className="loaderWrapper">
+                                <Loader active></Loader>
+                            </div>
+                            :   <div className="loaderWrapper">
+                                <Loader disabled></Loader>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div>
@@ -110,7 +163,9 @@ function DataCollection() {
                         open={showHelp}
                         position="bottom center"
                         trigger={
-                    <Button color={"green"} type={"button"} onClick={() => {window.location.href = "#/POI"}}>
+                    <Button color={"green"} type={"button"} onClick={() => {
+                        window.location.href = "#/POI"
+                    }}>
                         Add POI
                     </Button>}/>
                     { started &&
@@ -180,12 +235,35 @@ function DataCollection() {
                     <Button basic color='red' inverted onClick={() => setFinishModal(false)}>
                         <Icon name='remove' /> No
                     </Button>
-                    <CSVLink data={trail}>Download me</CSVLink>;
+                    {/*<CSVLink data={trail}>Download me</CSVLink>;*/}
                     <Button color='green' inverted onClick={() => {
                         setFinishModal(false);
+                        console.log("submit");
                         window.location.href = "#/DataCollectionConfirmation";
                     }}>
                         <Icon name='checkmark' /> Yes
+                    </Button>
+                </Modal.Actions>
+            </Modal>
+
+
+            <Modal
+                basic
+                onClose={() => setPauseModal(false)}
+                open={pauseModal}
+                size='small'>
+                <Header icon>
+                    <Icon name='exclamation triangle' />
+                    Paused
+                </Header>
+                <Modal.Content>
+                    <p>
+                        If you're going to be gone for sometime, consider submitting your data now to prevent any loss of data!
+                    </p>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button basic color='red' inverted onClick={() => setPauseModal(false)}>
+                        <Icon name='remove' /> Close
                     </Button>
                 </Modal.Actions>
             </Modal>
