@@ -3,12 +3,17 @@ import {Button, Container, Form, Header, Icon, Input, Modal, Segment} from 'sema
 import GoogleMapReact from "google-map-react";
 import {CSVLink} from "react-csv";
 
+export const clearLocalStorage = () => {
+    localStorage.clear();
+}
 
 function Confirmation()
 {
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
     const [date, setDate] = useState(new Date());
+
+
 
     navigator.geolocation.watchPosition(function(position) {
         console.log("Latitude is :", position.coords.latitude);
@@ -50,6 +55,7 @@ function Confirmation()
                         />
                         <Button type="submit" color={'green'}  onClick={() => {
                             setSubmitModal(true);
+                            clearLocalStorage();
                         }}>
                             Submit Data
                         </Button>

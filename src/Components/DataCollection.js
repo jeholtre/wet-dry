@@ -11,16 +11,35 @@ import { CSVLink, CSVDownload } from "react-csv";
 function DataCollection() {
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
-    const [trail, setTrail] = useState([]);
+    const [trail, setTrail] = useState(JSON.parse(localStorage.getItem("trail")) || []);
     //const [updateCoords, setUpdateCoords] = useState(false);
     const [recording, setRecording] = useState(false);
-    const [started, setStarted] = useState(false);
+    const [started, setStarted] = useState(Boolean(JSON.parse(localStorage.getItem("started"))) || false);
     const [showHelp, setShowHelp] = useState(false);
-    const [ripplePool, setRipplePool] = useState(null);
+    const [rifflePool, setRifflePool] = useState(Boolean(JSON.parse(localStorage.getItem("rifflePool"))) || null);
     const [finishModal, setFinishModal] = useState(false);
     const [pauseModal, setPauseModal] = useState(false);
+    const [POIModal, setPOIModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
     const [updateTime, setUpdateTime] = useState(1000);
+
+
+    function saveStateToLocal() {
+        // localStorage.setItem("recording", recording);
+        localStorage.setItem("started", JSON.stringify(started));
+        localStorage.setItem("rifflePool", JSON.stringify(rifflePool));
+        localStorage.setItem("trail", JSON.stringify(trail));
+    }
+
+    // function retrieverStateFromLocal() {
+    //     const localTrail = JSON.parse(localStorage.getItem("trail"));
+    //     const localRifflePool = localStorage.getItem("rifflePool");
+    //     const localStarted = localStorage.getItem("started");
+    //     setTrail(localTrail);
+    //     setRifflePool(localRifflePool);
+    //     setStarted(localStarted);
+    // }
+
 
     const [loading, setLoading] = useState(true);
 
@@ -76,7 +95,8 @@ function DataCollection() {
         });
     };
 
-    localStorage.setItem("trail", JSON.stringify(trail));
+    saveStateToLocal();
+    console.log(started);
     console.log({trail});
     return (
         <div className="DataCollection">
@@ -92,7 +112,7 @@ function DataCollection() {
                             position="right center"
                             trigger={
                         <Button color={recording ? "red" : "green"} onClick={() => {
-                            if( ripplePool == null) {
+                            if( rifflePool == null) {
                                 setInitialStateModal(true);
                             } else {
                                 if(recording) {
@@ -114,18 +134,11 @@ function DataCollection() {
                 </Header>
                 <div className={recording ? "recording" : "not-recording"}>
                     <div className="map">
-                        <Popup
-                            content={'Recording is paused.'}
-                            open={(!recording && started)}
-                            position={"bottom center"}
-                            trigger={
-                            <GoogleMapReact
-                            bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
-                            center={{lat: currentLatitude, lng: currentLongitude}}
-                            onGoogleApiLoaded={handleApiLoaded}
-                            defaultZoom={14}
-                        >
-                        </GoogleMapReact>}/>
+                        <GoogleMapReact
+                        bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                        center={{lat: currentLatitude, lng: currentLongitude}}
+                        onGoogleApiLoaded={handleApiLoaded}
+                        defaultZoom={14}/>
                         { loading ?
                             <div className="loaderWrapper">
                                 <Loader active></Loader>
@@ -144,14 +157,14 @@ function DataCollection() {
                         trigger={
                     <div className="ui buttons three wide">
                         <button onClick={() => {
-                            setRipplePool(0);
-                        }} className={`ui button ${ripplePool == 0 ? "active" : ""}`}>Ripple</button>
+                            setRifflePool(0);
+                        }} className={`ui button ${rifflePool == 0 ? "active" : ""}`}>Riffle</button>
                         <button onClick={() => {
-                            setRipplePool(1);
-                        }} className={`ui button ${ripplePool == 1 ? "active" : ""}`}>Dry</button>
+                            setRifflePool(1);
+                        }} className={`ui button ${rifflePool == 1 ? "active" : ""}`}>Dry</button>
                         <button onClick={() => {
-                            setRipplePool(2);
-                        }} className={`ui button ${ripplePool == 2 ? "active" : ""}`}>Pool</button>
+                            setRifflePool(2);
+                        }} className={`ui button ${rifflePool == 2 ? "active" : ""}`}>Pool</button>
                     </div> } />
                 </div>
 
@@ -164,7 +177,7 @@ function DataCollection() {
                         position="bottom center"
                         trigger={
                     <Button color={"green"} type={"button"} onClick={() => {
-                        window.location.href = "#/POI"
+                        setPOIModal(true);
                     }}>
                         Add POI
                     </Button>}/>
@@ -196,22 +209,22 @@ function DataCollection() {
                 <Modal.Actions>
                     <Button basic color='green' inverted onClick={() => {
                         setInitialStateModal(false)
-                        setRipplePool(0);
+                        setRifflePool(0);
                         setRecording(true);
                         setStarted(true);
-                    }} className={`ui button ${ripplePool == 0 ? "active" : ""}`}>Ripple</Button>
+                    }} className={`ui button ${rifflePool == 0 ? "active" : ""}`}>Ripple</Button>
                     <Button basic color='green' inverted onClick={() => {
                         setInitialStateModal(false)
-                        setRipplePool(1);
+                        setRifflePool(1);
                         setRecording(true);
                         setStarted(true);
-                    }} className={`ui button ${ripplePool == 1 ? "active" : ""}`}>Dry</Button>
+                    }} className={`ui button ${rifflePool == 1 ? "active" : ""}`}>Dry</Button>
                     <Button basic color='green' inverted onClick={() => {
                         setInitialStateModal(false)
-                        setRipplePool(2);
+                        setRifflePool(2);
                         setRecording(true);
                         setStarted(true);
-                    }} className={`ui button ${ripplePool == 2 ? "active" : ""}`}>Pool</Button>
+                    }} className={`ui button ${rifflePool == 2 ? "active" : ""}`}>Pool</Button>
                     <Button basic color='red' inverted onClick={() => setInitialStateModal(false)}>
                         <Icon name='remove' /> Back
                     </Button>
@@ -253,7 +266,7 @@ function DataCollection() {
                 open={pauseModal}
                 size='small'>
                 <Header icon>
-                    <Icon name='exclamation triangle' />
+                    <Icon name='pause' />
                     Paused
                 </Header>
                 <Modal.Content>
@@ -264,6 +277,28 @@ function DataCollection() {
                 <Modal.Actions>
                     <Button basic color='red' inverted onClick={() => setPauseModal(false)}>
                         <Icon name='remove' /> Close
+                    </Button>
+                </Modal.Actions>
+            </Modal>
+
+
+            <Modal
+                basic
+                onClose={() => setPOIModal(false)}
+                open={POIModal}
+                size='small'>
+                <Header icon>
+                    This will pause the recording! Don't go too far!
+                </Header>
+                <Modal.Actions>
+                    <Button basic color='green' inverted onClick={() => {
+                        setPOIModal(false);
+                        window.location.href = "#/POI";
+                    }}>
+                        <Icon name='checkmark' /> Add POI
+                    </Button>
+                    <Button basic color='red' inverted onClick={() => setPOIModal(false)}>
+                        <Icon name='remove' /> Cancel
                     </Button>
                 </Modal.Actions>
             </Modal>
