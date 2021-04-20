@@ -12,8 +12,9 @@
   }
   
   .POI .placeHolder {
-    min-width: 400px;
+    min-width: 275px;
     height: 33vh;
+    contain: content;
   }
 
   .POI .icon {
