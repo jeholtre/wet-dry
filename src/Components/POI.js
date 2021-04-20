@@ -18,7 +18,7 @@ function POI() {
     const [description, setDescription] = useState("");
     const [stream, setStream] = useState(localStorage.getItem("stream") || "");
     
-    var POIs;
+    var trail;
 
     let history = useHistory();
 
@@ -41,27 +41,14 @@ function POI() {
     }
 
     function handleSubmit() {
-        if (localStorage.getItem("POI")) {
-            POIs = JSON.parse(localStorage.getItem("POI"));
-            POIs.push({
-                "dataUri": dataUri, 
-                "latitude": currentLatitude,
-                "longitude": currentLongitude,
-                "desc": description
-            });
-            localStorage.setItem('POI', JSON.stringify(POIs));
-        }
-        else {
-            localStorage.setItem('POI', JSON.stringify([
-                {
-                    "stream": stream,
-                    "dataUri": dataUri, 
-                    "latitude": currentLatitude,
-                    "longitude": currentLongitude,
-                    "desc": description
-                }
-            ]));
-        }
+        trail = JSON.parse(localStorage.getItem("trail"));
+        trail.push({
+            "dataUri": dataUri, 
+            "lat": currentLatitude,
+            "lng": currentLongitude,
+            "desc": description
+        });
+        localStorage.setItem('trail', JSON.stringify(trail));
 
         history.push("/DataCollection");
     }
