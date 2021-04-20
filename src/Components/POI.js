@@ -113,7 +113,7 @@ function POI() {
                             <p><Header as='h5'>Date</Header>
                                 { (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() }
                             </p>
-                            <p><Header as='h5'>Stream Name</Header>Stream Name</p>
+                            <p><Header as='h5'>Stream Name</Header>{localStorage.getItem("stream")}</p>
                         </Grid.Column>
                         <Grid.Column>
                             <Form.TextArea label="Description" minHeight={100}></Form.TextArea>
