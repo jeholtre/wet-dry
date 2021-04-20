@@ -15,6 +15,10 @@ function POI() {
     const [dataUri, setDataUri] = useState('');
     const [loading, setLoading] = useState(true);
     const [updateTime, setUpdateTime] = useState(1000);
+    const [description, setDescription] = useState("");
+    const [stream, setStream] = useState(localStorage.getItem("stream") || "");
+    
+    var POIs;
 
     let history = useHistory();
 
@@ -24,18 +28,43 @@ function POI() {
             navigator.geolocation.getCurrentPosition( async function(position) {
                 await setCurrentLatitude(position.coords.latitude);
                 setCurrentLongitude(position.coords.longitude);
-                // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
-                // setTrail(trail => [...trail, p]);s
             }, (err) => console.log(err), 
             {enableHighAccuracy: false,
                 timeout: 5000,
                 maximumAge: Infinity});
-            // console.log({trail});
         }, updateTime);
         return () => clearInterval(interval);
     }, []);
 
+    function handleDesc(e, desc) {
+        setDescription(desc.value);
+        console.log(desc.value);
+    }
+
     function handleSubmit() {
+        if (localStorage.getItem("POI")) {
+            POIs = JSON.parse(localStorage.getItem("POI"));
+            POIs.push({
+                "dataUri": dataUri, 
+                "latitude": currentLatitude,
+                "longitude": currentLongitude,
+                "desc": description
+            });
+            console.log(POIs);
+            localStorage.setItem('POI', JSON.stringify(POIs));
+        }
+        else {
+            localStorage.setItem('POI', JSON.stringify([
+                {
+                    "stream": stream,
+                    "dataUri": dataUri, 
+                    "latitude": currentLatitude,
+                    "longitude": currentLongitude,
+                    "desc": description
+                }
+            ]));
+        }
+
         history.push("/DataCollection");
     }
 
@@ -46,13 +75,10 @@ function POI() {
     }
 
     const handleApiLoaded = (map, maps) => {
-        // use map and maps objects
         setLoading(false);
         navigator.geolocation.getCurrentPosition( function(position) {
             setCurrentLatitude(position.coords.latitude);
             setCurrentLongitude(position.coords.longitude);
-            // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
-            // setTrail(trail => [...trail, p]);
         });
     };
 
@@ -113,10 +139,10 @@ function POI() {
                             <p><Header as='h5'>Date</Header>
                                 { (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear() }
                             </p>
-                            <p><Header as='h5'>Stream Name</Header>{localStorage.getItem("stream")}</p>
+                            <p><Header as='h5'>Stream Name</Header>{stream}</p>
                         </Grid.Column>
                         <Grid.Column>
-                            <Form.TextArea label="Description" minHeight={100}></Form.TextArea>
+                            <Form.TextArea label="Description" minHeight={100} onChange={handleDesc}></Form.TextArea>
                             <Form.Button onClick={ handleSubmit }>Submit</Form.Button>
                         </Grid.Column>
                         <Divider vertical className="relative"></Divider>
