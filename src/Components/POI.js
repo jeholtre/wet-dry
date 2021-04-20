@@ -38,7 +38,6 @@ function POI() {
 
     function handleDesc(e, desc) {
         setDescription(desc.value);
-        console.log(desc.value);
     }
 
     function handleSubmit() {
@@ -50,7 +49,6 @@ function POI() {
                 "longitude": currentLongitude,
                 "desc": description
             });
-            console.log(POIs);
             localStorage.setItem('POI', JSON.stringify(POIs));
         }
         else {
@@ -75,6 +73,11 @@ function POI() {
     }
 
     const handleApiLoaded = (map, maps) => {
+        let marker = new maps.Marker({
+            position: {lat: currentLatitude, lng: currentLongitude},
+            map,
+          });
+
         setLoading(false);
         navigator.geolocation.getCurrentPosition( function(position) {
             setCurrentLatitude(position.coords.latitude);
@@ -119,7 +122,7 @@ function POI() {
                     defaultCenter={{lat: 0, lng: 0}}
                     center={{lat: currentLatitude, lng: currentLongitude}}
                     defaultZoom={12}
-                    onGoogleApiLoaded={handleApiLoaded}
+                    onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
                 >
                 </GoogleMapReact>
                 { loading ? 
@@ -149,13 +152,6 @@ function POI() {
                     </Grid>
                 </Form>
             </Segment>
-{/*             <Card className="placeHolder">
-                <Card.Content>
-                    <Placeholder>
-                    <Placeholder.Image rectangular />
-                    </Placeholder>
-                </Card.Content>
-            </Card> */}
         </div>
     );
 };
