@@ -75,53 +75,59 @@ function PrelimDataAcq()
             </Header>
             <Segment className = "inputAreas">
                 <Form onSubmit={handleSubmit}>
-                    <label>Name of Observer: </label>
-                    <Popup content={'firstname lastname'} trigger={<Form.Input
-                        placeholder='Your name here'
-                        name='userName'
-                        value={username}
-                        onChange={handleUsernameChange}
+                    <Form.Field required>
+                        <label>Name of Observer: </label>
+                        <Popup content={'full name'} trigger={<Form.Input
+                            placeholder='Your name here'
+                            name='userName'
+                            value={username}
+                            onChange={handleUsernameChange}
                         />}
-                           on = 'focus'
-                           position = 'top left'
-                           inverted
-                    />
+                               on = 'focus'
+                               position = 'top left'
+                               inverted
+                        />
+                    </Form.Field>
+                    <Form.Field required>
+                        <label>Stream: </label>
+                        <Form.Input
+                            placeholder='Stream name'
+                            name='stream'
+                            value={stream}
+                            onChange={handleStreamChange}
+                        />
+                    </Form.Field>
 
-                    <Form>
-                        <Form.Field required>
-                            <label>Stream: </label>
-                            <Form.Input
-                                placeholder='Stream name'
-                                name='stream'
-                                value={stream}
-                                onChange={handleStreamChange}
-                            />
-                        </Form.Field>
-                    </Form>
                     {/*<Form.Input*/}
                     {/*    placeholder='Stream name'*/}
                     {/*    name='stream'*/}
                     {/*    value={stream}*/}
                     {/*    onChange={handleStreamChange}*/}
                     {/*/>}*/}
-                    <label>Stream Section: </label>
-                    <Form.Input
-                        placeholder='Section/SubBasin'
-                        name='streamSection'
-                        value={streamSection}
-                        onChange={handleStreamSectionChange}
-                    />
-                    <label>Current Stream Direction:</label>
-                    <div>
-                        <Button.Group>
-                            <Button onClick={() => {
-                                setStreamDirection(false);  // upstream
-                            }}>UpStream</Button>
-                            <Button onClick={() => {
-                                setStreamDirection(true);  // downstream
-                            }}>DownStream</Button>
-                        </Button.Group>
-                    </div>
+                    <Form.Field required>
+                        <label>Stream Section: </label>
+                        <Form.Input
+                            placeholder='Section/SubBasin'
+                            name='streamSection'
+                            value={streamSection}
+                            onChange={handleStreamSectionChange}
+                        />
+                    </Form.Field>
+
+                    <Form.Field required>
+                        <label>Current Stream Direction:</label>
+                        <div>
+                            <Button.Group>
+                                <Button onClick={() => {
+                                    setStreamDirection(false);  // upstream
+                                }}>UpStream</Button>
+                                <Button onClick={() => {
+                                    setStreamDirection(true);  // downstream
+                                }}>DownStream</Button>
+                            </Button.Group>
+                        </div>
+                    </Form.Field>
+
                     <label>Class/Section ID: </label>
                     <Form.Input
                         placeholder='#########'
