@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, Grid, Header, Modal, Segment} from 'semantic-ui-react'
+import {Button, Form, Popup, Header, Modal, Segment} from 'semantic-ui-react'
 import '../css/PrelimDataAcq.css'
 // need to add corresponding button in Home.js then edit routes as well
 // inputs down work
@@ -10,6 +10,7 @@ function PrelimDataAcq()
     const [username, setUserName] = useState('');
     const [stream, setStream] = useState('');
     const [streamSection, setStreamSection] = useState('');
+    const [streamDirectioin, setStreamDirection] = useState(0);   // stream direction: 0-> upstream
     const [sectionID, setSectionID] = useState('');
     const [open, setOpen] = React.useState(false)
 
@@ -22,6 +23,9 @@ function PrelimDataAcq()
     const handleStreamSectionChange = (e, {value} ) => {
         setStreamSection(value)
     };
+    const handleStreamDirection = (e, {value}) => {
+        setStreamDirection(value)
+    }
     const handleSectionIDChange = (e, {value} ) => {
         setSectionID(value)
     };
@@ -30,6 +34,7 @@ function PrelimDataAcq()
         localStorage.setItem('username', username)
         localStorage.setItem('stream', stream)
         localStorage.setItem('streamSection', streamSection)
+        localStorage.setItem('streamDirection',streamDirectioin)
         localStorage.setItem('sectionID', sectionID)
         };
 
@@ -40,12 +45,15 @@ function PrelimDataAcq()
             </Header>
             <Segment className = "inputAreas">
                 <Form onSubmit={handleSubmit}>
-                    <label>Name of Surveyor: </label>
-                    <Form.Input
+                    <label>Name of Observer: </label>
+                    <Popup content={'firstname lastname'} trigger={<Form.Input
                         placeholder='Your name here'
-                        name='userName'
-                        value={username}
+                        name='userName' value={username}
                         onChange={handleUsernameChange}
+                        />}
+                           on = 'focus'
+                           position = 'left center'
+                           inverted
                     />
                     <label>Stream: </label>
                     <Form.Input
@@ -53,7 +61,7 @@ function PrelimDataAcq()
                         name='stream'
                         value={stream}
                         onChange={handleStreamChange}
-                    />
+                    />}
                     <label>Stream Section: </label>
                     <Form.Input
                         placeholder='Section and Direction'
@@ -61,6 +69,17 @@ function PrelimDataAcq()
                         value={streamSection}
                         onChange={handleStreamSectionChange}
                     />
+                    <label>Stream Direction:</label>
+                    <div>
+                        <Button.Group>
+                            <Button onClick={() => {
+                                setStreamDirection(0);  // upstream
+                            }}>UpStream</Button>
+                            <Button onClick={() => {
+                                setStreamDirection(1);  // downstream
+                            }}>DownStream</Button>
+                        </Button.Group>
+                    </div>
                     <label>Class/Section ID: </label>
                     <Form.Input
                         placeholder='#########'
