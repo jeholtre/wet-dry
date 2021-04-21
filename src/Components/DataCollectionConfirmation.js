@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Button, Container, Form, Header, Icon, Input, Modal, Segment} from 'semantic-ui-react';
+import React, {useEffect, useState} from 'react';
+import {Button, Container, Form, Header, Icon, Input, Modal, Segment, Dimmer, Loader, Image,} from 'semantic-ui-react';
 import GoogleMapReact from "google-map-react";
 import {CSVLink} from "react-csv";
 
@@ -12,8 +12,45 @@ function Confirmation()
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
     const [date, setDate] = useState(new Date());
+    const [loading, setLoading] = useState(true);
+    const [updateTime, setUpdateTime] = useState(1000);
+    const [username, setUserName] = useState('');
+    const [stream, setStream] = useState('');
+    const [streamSection, setStreamSection] = useState('');
+    const [sectionID, setSectionID] = useState('');
 
+    const handleUsernameChange = (e, {value} ) => {
+        setUserName(value)
+    };
+    const handleStreamChange = (e, {value} ) => {
+        setStream(value)
+    };
+    const handleStreamSectionChange = (e, {value} ) => {
+        setStreamSection(value)
+    };
+    const handleSectionIDChange = (e, {value} ) => {
+        setSectionID(value)
+    };
 
+    useEffect(()=> {
+        const interval = setInterval(  () => {
+            navigator.geolocation.getCurrentPosition( async function(position) {
+                    await setCurrentLatitude(position.coords.latitude);
+                    setCurrentLongitude(position.coords.longitude);
+                }, (err) => console.log(err),
+                {enableHighAccuracy: false,
+                    timeout: 5000,
+                    maximumAge: Infinity});
+        }, updateTime);
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleSubmit = () => {
+        localStorage.setItem('username', username)
+        localStorage.setItem('stream', stream)
+        localStorage.setItem('streamSection', streamSection)
+        localStorage.setItem('sectionID', sectionID)
+    };
 
     navigator.geolocation.watchPosition(function(position) {
         console.log("Latitude is :", position.coords.latitude);
@@ -22,6 +59,19 @@ function Confirmation()
         setCurrentLongitude(position.coords.longitude);
         // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
     });
+
+    const handleApiLoaded = (map, maps) => {
+        // use map and maps objects
+        setLoading(false);
+        console.log("?")
+        navigator.geolocation.getCurrentPosition( function(position) {
+            setCurrentLatitude(position.coords.latitude);
+            setCurrentLongitude(position.coords.longitude);
+            // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+            // setTrail(trail => [...trail, p]);
+        });
+    };
+
     const [open, setOpen] = React.useState(false)
     const [SubmitModal, setSubmitModal] = useState(false);
     return (
@@ -31,80 +81,103 @@ function Confirmation()
                     <h1 size="huge"><strong> Stream Data Confirmation </strong></h1>
                     <br></br>
                     <br></br>
-                    <Form /*onSubmit={handleSubmit}*/>
-                        <label>Name of Surveyor: </label>
-                        <Form.Input
-                            name='userName'
-                            value={localStorage.getItem('username')}
-                            //onChange={handleUsernameChange}
-                        />
-                        <label>Stream: </label>
-                        <Form.Input
-                            name='stream'
-                            value={localStorage.getItem('stream')}
-                        />
-                        <label>Stream Section: </label>
-                        <Form.Input
-                            name='streamSection'
-                            value={localStorage.getItem('streamSection')}
-                        />
-                        <label>Class/Section ID: </label>
-                        <Form.Input
-                            name='sectionID'
-                            value={localStorage.getItem('sectionID')}
-                        />
-                        <Button type="submit" color={'green'}  onClick={() => {
-                            setSubmitModal(true);
-                            clearLocalStorage();
-                        }}>
-                            Submit Data
-                        </Button>
+                    <Segment>
+                        <Form onSubmit={handleSubmit}>
+                            <label>Name of Surveyor: </label>
+                            <Form.Input
+                                required
+                                name='userName'
+                                value={localStorage.getItem('username')}
+                                onChange={handleUsernameChange}
+                            />
+                            <label>Stream: </label>
+                            <Form.Input
+                                required
+                                name='stream'
+                                value={localStorage.getItem('stream')}
+                                onChange={handleStreamChange}
+                            />
+                            <label>Stream Section: </label>
+                            <Form.Input
+                                required
+                                name='streamSection'
+                                value={localStorage.getItem('streamSection')}
+                                onChange={handleStreamSectionChange}
+                            />
+                            <label>Class/Section ID: </label>
+                            <Form.Input
+                                required
+                                name='sectionID'
+                                value={localStorage.getItem('sectionID')}
+                                onChange={handleSectionIDChange}
+                            />
+                            <Button type="submit" color={'green'}  onClick={() => {
+                                setSubmitModal(true);
+                                clearLocalStorage();
+                            }}>
+                                Submit Data
+                            </Button>
 
-                        {/*Help button */}
-                        <Modal
-                            onClose={() => setOpen(false)}
-                            onOpen={() => setOpen(true)}
-                            open={open}
-                            trigger={<Button color={'green'}>Help</Button>}
-                        >
-                            <Modal.Header>Help for the Data Collection Confirmation Page</Modal.Header>
-                            <Modal.Content image>
-                                <Modal.Description>
-                                    <p>
-                                        DATA COLLECTION CONFIRMATION PAGE HELP WIP
-                                    </p>
-                                </Modal.Description>
-                            </Modal.Content>
-                            <Modal.Actions>
-                                <Button color='green' onClick={() => setOpen(false)}>
-                                    Close Popup
-                                </Button>
-                            </Modal.Actions>
-                        </Modal>
-                    </Form>
+                            {/*Help button */}
+                            <Modal
+                                onClose={() => setOpen(false)}
+                                onOpen={() => setOpen(true)}
+                                open={open}
+                                trigger={<Button color={'green'}>Help</Button>}
+                            >
+                                <Modal.Header>Help for the Confirmation Page</Modal.Header>
+                                <Modal.Content image>
+                                    <Modal.Description>
+                                        <p>
+                                            This page is to make sure that all of your inputs from the acquisition
+                                            page are correct, and you can change any of them as necessary.
+                                        </p>
+                                    </Modal.Description>
+                                </Modal.Content>
+                                <Modal.Actions>
+                                    <Button color='green' onClick={() => setOpen(false)}>
+                                        Close Popup
+                                    </Button>
+                                </Modal.Actions>
+                            </Modal>
+                        </Form>
                     <br/>
-                    <p>
-                        {JSON.parse(localStorage.getItem('trail')).map((c) => {
-                            console.log("Entered");
-                            return (<p> {c.latitude}, {c.longitude} </p>)
-                        })}
-                    </p>
-                    <div style={{ height: '40vh', width: '40wh' }}>
+
+                    <div className="map" style={{ height: '30vh', width: '30wh' }}>
                         <GoogleMapReact
                             bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
-                            defaultCenter={{lat: currentLatitude, lng: currentLongitude}}
-                            defaultZoom={12}
-                        >
-                        </GoogleMapReact>
+                            defaultCenter={{lat: 0, lng: 0}}
+                            center={{lat: currentLatitude, lng: currentLongitude}}
+                            onGoogleApiLoaded={handleApiLoaded}
+                            defaultZoom={12}/>
+                        { loading ?
+                            <div className="loaderWrapper">
+                                <Loader active></Loader>
+                            </div>
+                            :   <div className="loaderWrapper">
+                                <Loader disabled></Loader>
+                            </div>
+                        }
                     </div>
+                    </Segment>
                 </Container>
                 <br/>
                 <p>
+
                     <Modal
                         basic
                         onClose={() => setSubmitModal(false)}
                         open={SubmitModal}
                         size='small'>
+                        {/*<div>*/}
+                        {/*    <Segment>*/}
+                        {/*        <Dimmer active>*/}
+                        {/*            <Loader indeterminate   >Exporting CSV File</Loader>*/}
+                        {/*        </Dimmer>*/}
+
+                        {/*        <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />*/}
+                        {/*    </Segment>*/}
+                        {/*</div>*/}
                         <Header icon>
                             <Icon name='thumbs up outline' />
                             Success!
@@ -129,6 +202,7 @@ function Confirmation()
 
                 </p>
             </header>
+
         </div>
     );
 
