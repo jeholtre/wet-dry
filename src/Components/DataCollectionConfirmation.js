@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Container, Form, Header, Icon, Input, Modal, Segment, Dimmer, Loader, Image,} from 'semantic-ui-react';
 import GoogleMapReact from "google-map-react";
 import {CSVLink} from "react-csv";
+import API_KEY from './DataCollection'
 
 export const clearLocalStorage = () => {
     localStorage.clear();
@@ -14,7 +15,7 @@ function Confirmation()
     const [date, setDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
     const [updateTime, setUpdateTime] = useState(1000);
-    const [username, setUserName] = useState('');
+    const [username, setUserName] = useState(localStorage.getItem('username'));
     const [stream, setStream] = useState('');
     const [streamSection, setStreamSection] = useState('');
     const [sectionID, setSectionID] = useState('');
@@ -72,6 +73,8 @@ function Confirmation()
         });
     };
 
+
+
     const [open, setOpen] = React.useState(false)
     const [SubmitModal, setSubmitModal] = useState(false);
     return (
@@ -87,7 +90,7 @@ function Confirmation()
                             <Form.Input
                                 required
                                 name='userName'
-                                value={localStorage.getItem('username')}
+                                value={username}
                                 onChange={handleUsernameChange}
                             />
                             <label>Stream: </label>
@@ -145,7 +148,7 @@ function Confirmation()
 
                     <div className="map" style={{ height: '30vh', width: '30wh' }}>
                         <GoogleMapReact
-                            bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                            bootstrapURLKeys={{ key: API_KEY }}
                             defaultCenter={{lat: 0, lng: 0}}
                             center={{lat: currentLatitude, lng: currentLongitude}}
                             onGoogleApiLoaded={handleApiLoaded}
