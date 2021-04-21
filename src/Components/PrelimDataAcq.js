@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, Popup, Header, Modal, Segment} from 'semantic-ui-react'
+import {Button, Form, Popup, Header, Modal, Segment, Dropdown, Message} from 'semantic-ui-react'
 import '../css/PrelimDataAcq.css'
 // need to add corresponding button in Home.js then edit routes as well
 // inputs down work
@@ -10,8 +10,10 @@ function PrelimDataAcq()
     const [username, setUserName] = useState('');
     const [stream, setStream] = useState('');
     const [streamSection, setStreamSection] = useState('');
-    const [streamDirectioin, setStreamDirection] = useState(0);   // stream direction: 0-> upstream
+    // need to know if this is correct. default false -> upstream?
+    const [streamDirection, setStreamDirection] = useState(Boolean(JSON.parse(localStorage.getItem('streamDirection'))) || false);   // stream direction: 0-> upstream
     const [sectionID, setSectionID] = useState('');
+    const [gPSInterval, setGPSInterval] = useState(1)
     const [open, setOpen] = React.useState(false)
 
     const handleUsernameChange = (e, {value} ) => {
@@ -23,21 +25,49 @@ function PrelimDataAcq()
     const handleStreamSectionChange = (e, {value} ) => {
         setStreamSection(value)
     };
-    const handleStreamDirection = (e, {value}) => {
-        setStreamDirection(value)
-    }
     const handleSectionIDChange = (e, {value} ) => {
         setSectionID(value)
     };
+    const handleGPSIntervalChange = (e, {value}) => {
+        setGPSInterval(value)
+    }
 
     const handleSubmit = () => {
         localStorage.setItem('username', username)
         localStorage.setItem('stream', stream)
         localStorage.setItem('streamSection', streamSection)
-        localStorage.setItem('streamDirection',streamDirectioin)
+        localStorage.setItem('streamDirection',streamDirection)
+        localStorage.setItem('gPSInterval',gPSInterval)
         localStorage.setItem('sectionID', sectionID)
         };
 
+    const timeIntervalOptions = [
+        {
+            key:    '1s',
+            text:   '1s',
+            value:  1
+        },
+        {
+            key:    '3s',
+            text:   '3s',
+            value:  3
+        },
+        {
+            key:    '5s',
+            text:   '5s',
+            value:  5
+        },
+        {
+            key:    '10s',
+            text:   '10s',
+            value:  10
+        },
+        {
+            key:    '15s',
+            text:   '15s',
+            value:  15
+        }
+    ]
     return (
         <div className="PrelimDataAcq">
             <Header as='h1' textAlign='center' paddingTop="10px">
@@ -48,35 +78,47 @@ function PrelimDataAcq()
                     <label>Name of Observer: </label>
                     <Popup content={'firstname lastname'} trigger={<Form.Input
                         placeholder='Your name here'
-                        name='userName' value={username}
+                        name='userName'
+                        value={username}
                         onChange={handleUsernameChange}
                         />}
                            on = 'focus'
-                           position = 'left center'
+                           position = 'top left'
                            inverted
                     />
-                    <label>Stream: </label>
-                    <Form.Input
-                        placeholder='Stream name'
-                        name='stream'
-                        value={stream}
-                        onChange={handleStreamChange}
-                    />}
+
+                    <Form>
+                        <Form.Field required>
+                            <label>Stream: </label>
+                            <Form.Input
+                                placeholder='Stream name'
+                                name='stream'
+                                value={stream}
+                                onChange={handleStreamChange}
+                            />
+                        </Form.Field>
+                    </Form>
+                    {/*<Form.Input*/}
+                    {/*    placeholder='Stream name'*/}
+                    {/*    name='stream'*/}
+                    {/*    value={stream}*/}
+                    {/*    onChange={handleStreamChange}*/}
+                    {/*/>}*/}
                     <label>Stream Section: </label>
                     <Form.Input
-                        placeholder='Section and Direction'
+                        placeholder='Section/SubBasin'
                         name='streamSection'
                         value={streamSection}
                         onChange={handleStreamSectionChange}
                     />
-                    <label>Stream Direction:</label>
+                    <label>Current Stream Direction:</label>
                     <div>
                         <Button.Group>
                             <Button onClick={() => {
-                                setStreamDirection(0);  // upstream
+                                setStreamDirection(false);  // upstream
                             }}>UpStream</Button>
                             <Button onClick={() => {
-                                setStreamDirection(1);  // downstream
+                                setStreamDirection(true);  // downstream
                             }}>DownStream</Button>
                         </Button.Group>
                     </div>
@@ -86,6 +128,13 @@ function PrelimDataAcq()
                         name='sectionID'
                         value={sectionID}
                         onChange={handleSectionIDChange}
+                    />
+                    <label>Location Update Intervals:</label>
+                    <Dropdown placeholder={'Select'}
+                              fluid
+                              selection
+                              options={timeIntervalOptions}
+                              onChange={handleGPSIntervalChange}
                     />
                     <Button type="submit" color={'green'}  onClick={() => {
                         window.location.href = "#/DataCollection"}}>Submit
