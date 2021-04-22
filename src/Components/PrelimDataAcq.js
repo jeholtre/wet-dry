@@ -4,10 +4,18 @@ import '../css/PrelimDataAcq.css'
 // need to add corresponding button in Home.js then edit routes as well
 // inputs down work
 
+function isEmail(val)
+{
+    let regEmail =  /^(([^<>()[]\.,;:\s@"]+(.[^<>()[]\.,;:\s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+    return regEmail.test(val);
+
+}
+
 function PrelimDataAcq()
 {
     const [username, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
+    const [falseEmail, setFalseEmail] = useState(null)
     const [stream, setStream] = useState('');
     const [streamSection, setStreamSection] = useState('');
     // need to know if this is correct. default false -> upstream?
@@ -22,6 +30,9 @@ function PrelimDataAcq()
     const handleEmailChange =       (e, {value}) => {
         setUserEmail(value)
     };
+    const handleFalseEmail =        (e, {value}) => {
+        setFalseEmail(isEmail(value))
+    }
     const handleStreamChange =      (e, {value} ) => {
         setStream(value)
     };
@@ -97,11 +108,13 @@ function PrelimDataAcq()
                                inverted
                         />
                     </Form.Field>
+
                     <Form.Field required>
                         <label>E-mail for .csv</label>
                         <Popup content={'email address to receive the survey outcome in .csv format'} trigger={<Form.Input
                             name='userEmail'
                             value={userEmail}
+                            // error = {{content: 'invalid email address'}}
                             onChange={handleEmailChange}
                             />}
                                on = 'focus'
@@ -139,12 +152,12 @@ function PrelimDataAcq()
                         <label>Current Stream Direction:</label>
                         <div>
                             <Button.Group>
-                                <Button className={`ui ${streamDirection == false ? "positive": ""} button`}
+                                <Button className={`ui ${streamDirection == false ? "primary": ""} button`}
                                     onClick={() => {
                                     setStreamDirection(false);  // upstream
                                 }}>UpStream</Button>
                                 <Button
-                                    className={`ui ${streamDirection == true ? "positive": ""} button`}
+                                    className={`ui ${streamDirection == true ? "primary": ""} button`}
                                     onClick={() => {
                                     setStreamDirection(true);  // downstream
                                 }}>DownStream</Button>
@@ -167,7 +180,7 @@ function PrelimDataAcq()
                               defaultValue={timeIntervalOptions[0].value}
                               onChange={handleGPSIntervalChange}
                     />
-                    <Button type="submit" color={'green'}
+                    <Button type="submit" color={'blue'}
                             disabled = {!username
                                 || !userEmail
                             || !stream
@@ -179,7 +192,7 @@ function PrelimDataAcq()
                     </Button>
                 </Form>
 
-                <Button color={'green'} onClick={() => {
+                <Button color={'blue'} onClick={() => {
                     window.location.href = "#/"}}>Back {/* Funny it send to address '/#/' */}
                 </Button>
 
@@ -187,7 +200,7 @@ function PrelimDataAcq()
                     onClose={() => setOpen(false)}
                     onOpen={() => setOpen(true)}
                     open={open}
-                    trigger={<Button color={'green'}>Help</Button>}
+                    trigger={<Button color={'blue'}>Help</Button>}
                 >
                     <Modal.Header>Help for the Preliminary Data Acquisition Page</Modal.Header>
                     <Modal.Content image>
