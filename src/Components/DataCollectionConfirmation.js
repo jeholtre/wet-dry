@@ -16,8 +16,9 @@ function Confirmation()
     const [date, setDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
     const [updateTime, setUpdateTime] = useState(1000);
-    const [username, setUserName] = useState(localStorage.getItem('username'));
 
+    const [Email, setEmail] = useState(localStorage.getItem('Email'));
+    const [username, setUserName] = useState(localStorage.getItem('username'));
     const [stream, setStream] = useState(localStorage.getItem('stream'));
     const [streamSection, setStreamSection] = useState(localStorage.getItem('streamSection'));
     const [sectionID, setSectionID] = useState(localStorage.getItem('sectionID'));
@@ -36,6 +37,10 @@ function Confirmation()
     };
     const handleSectionIDChange = (e, {value} ) => {
         setSectionID(value)
+    };
+
+    const handleEmailChange = (e, {value} ) => {
+        setEmail(value)
     };
 
     useEffect(()=> {
@@ -131,11 +136,17 @@ function Confirmation()
                     <Segment>
                         <Form onSubmit={handleSubmit}>
                             <Form.Field required>
-                            <label>Name of Surveyor: </label>
+                            <label>Name of Observer: </label>
                             <Form.Input
                                 name='userName'
                                 value={username}
                                 onChange={handleUsernameChange}
+                            />
+                            <label>Email Address: </label>
+                            <Form.Input
+                                name='Email'
+                                value={Email}
+                                onChange={handleEmailChange}
                             />
                             <label>Stream: </label>
                             <Form.Input
@@ -160,6 +171,7 @@ function Confirmation()
                             <Button type="submit" color={'green'}
                                     disabled = {!username
                                     || !stream
+                                    || !Email
                                     || !streamSection
                                     }
                                     onClick={() => {
