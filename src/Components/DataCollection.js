@@ -21,7 +21,7 @@ function DataCollection() {
     const [pauseModal, setPauseModal] = useState(false);
     const [POIModal, setPOIModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
-    const [updateTime, setUpdateTime] = useState(1000);
+    const [updateTime, setUpdateTime] = useState((localStorage.getItem('gPSInterval') * 1000) || 1000);
 
 
     function saveStateToLocal() {
@@ -31,19 +31,21 @@ function DataCollection() {
         localStorage.setItem("trail", JSON.stringify(trail));
     }
 
-    // function retrieverStateFromLocal() {
-    //     const localTrail = JSON.parse(localStorage.getItem("trail"));
-    //     const localRifflePool = localStorage.getItem("rifflePool");
-    //     const localStarted = localStorage.getItem("started");
-    //     setTrail(localTrail);
-    //     setRifflePool(localRifflePool);
-    //     setStarted(localStarted);
-    // }
-
+    console.log(updateTime)
 
     const [loading, setLoading] = useState(true);
 
-    //Should update everytime position changes
+
+     //initial update of coordinates
+    useEffect(()=> {
+            navigator.geolocation.getCurrentPosition( async function(position) {
+                    await setCurrentLatitude(position.coords.latitude);
+                    await setCurrentLongitude(position.coords.longitude);
+                }, (err) => console.log(err),
+                {enableHighAccuracy: false,
+                    timeout: 5000,
+                    maximumAge: Infinity});
+    }, []);
 
     function useRecordTrailPoint(fn, deps=[], isReady=true) {
         const toggled = useRef(isReady);
@@ -64,8 +66,7 @@ function DataCollection() {
             return fn();
         }, [...deps, fn, getDep()]);
     }
-
-
+    //updates that occur periodically while the user is recording
     useRecordTrailPoint(() => {
         const interval = setInterval(  () => {
             navigator.geolocation.getCurrentPosition( async function(position) {
@@ -80,22 +81,9 @@ function DataCollection() {
             // console.log({trail});
         }, updateTime);
         return () => clearInterval(interval);
-    }, [], true);
+    }, [], recording);
 
-
-    const handleApiLoaded = (map, maps) => {
-        // use map and maps objects
-        setLoading(false);
-        console.log("?")
-        navigator.geolocation.getCurrentPosition( function(position) {
-            setCurrentLatitude(position.coords.latitude);
-            setCurrentLongitude(position.coords.longitude);
-            // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
-            // setTrail(trail => [...trail, p]);
-        });
-    };
-
-    saveStateToLocal();
+    saveStateToLocal(); //this should really not happen every render....
     console.log(started);
     console.log({trail});
     return (
@@ -137,7 +125,7 @@ function DataCollection() {
                         <GoogleMapReact
                         bootstrapURLKeys={{ key: API_KEY }}
                         center={{lat: currentLatitude, lng: currentLongitude}}
-                        onGoogleApiLoaded={handleApiLoaded}
+                        onGoogleApiLoaded={() => setLoading(false)}
                         defaultZoom={14}/>
                         { loading ?
                             <div className="loaderWrapper">
@@ -212,7 +200,7 @@ function DataCollection() {
                         setRifflePool(0);
                         setRecording(true);
                         setStarted(true);
-                    }} className={`ui button ${rifflePool == 0 ? "active" : ""}`}>Ripple</Button>
+                    }} className={`ui button ${rifflePool == 0 ? "active" : ""}`}>Riffle</Button>
                     <Button basic color='green' inverted onClick={() => {
                         setInitialStateModal(false)
                         setRifflePool(1);

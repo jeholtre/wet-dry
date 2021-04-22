@@ -17,7 +17,7 @@ function Confirmation()
     const [loading, setLoading] = useState(true);
     const [updateTime, setUpdateTime] = useState(1000);
 
-    const [Email, setEmail] = useState(localStorage.getItem('Email'));
+    const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail'));
     const [username, setUserName] = useState(localStorage.getItem('username'));
     const [stream, setStream] = useState(localStorage.getItem('stream'));
     const [streamSection, setStreamSection] = useState(localStorage.getItem('streamSection'));
@@ -40,7 +40,7 @@ function Confirmation()
     };
 
     const handleEmailChange = (e, {value} ) => {
-        setEmail(value)
+        setUserEmail(value)
     };
 
     useEffect(()=> {
@@ -61,6 +61,7 @@ function Confirmation()
         localStorage.setItem('stream', stream)
         localStorage.setItem('streamSection', streamSection)
         localStorage.setItem('sectionID', sectionID)
+        localStorage.setItem('userEmail', userEmail)
     };
 
     navigator.geolocation.watchPosition(function(position) {
@@ -144,8 +145,8 @@ function Confirmation()
                             />
                             <label>Email Address: </label>
                             <Form.Input
-                                name='Email'
-                                value={Email}
+                                name='userEmail'
+                                value={userEmail}
                                 onChange={handleEmailChange}
                             />
                             <label>Stream: </label>
@@ -171,7 +172,7 @@ function Confirmation()
                             <Button type="submit" color={'green'}
                                     disabled = {!username
                                     || !stream
-                                    || !Email
+                                    || !userEmail
                                     || !streamSection
                                     }
                                     onClick={() => {
