@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Button, Image, Header, Icon, Loader, Segment, Grid, Divider, Form } from 'semantic-ui-react';
 import '../css/POI.css';
 import GoogleMapReact from 'google-map-react';
-import Camera from 'react-html5-camera-photo';
+import Camera, { FACING_MODES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import { useHistory } from 'react-router';
 import API_KEY from './DataCollection'
@@ -18,6 +18,7 @@ function POI() {
     const [updateTime, setUpdateTime] = useState(1000);
     const [description, setDescription] = useState("");
     const [stream, setStream] = useState(localStorage.getItem("stream") || "");
+    const [facing, setFacing] = useState(FACING_MODES.ENVIRONMENT);
     
     var trail;
 
@@ -60,6 +61,14 @@ function POI() {
         setDataUri(dataUri);
     }
 
+    function swapCamera() {
+        if (facing === FACING_MODES.ENVIRONMENT) {
+            setFacing(FACING_MODES.USER);
+        } else {
+            setFacing(FACING_MODES.ENVIRONMENT);
+        }
+    }
+
     const handleApiLoaded = (map, maps) => {
         let marker = new maps.Marker({
             position: {lat: currentLatitude, lng: currentLongitude},
@@ -89,13 +98,20 @@ function POI() {
                 </Segment>
                 :
                 <Segment placeholder className="placeHolder">
+                    <div class="swap">
+                        <Header icon onClick={() => {swapCamera();}}>
+                            <Icon name='exchange' link/>
+                        </Header>
+                    
                     <Camera className="preview" 
                         onTakePhoto = { (dataUri) => { handleTakePhoto(dataUri); } }
+                        idealFacingMode = {facing}
                     />
+                    </div>
                 </Segment>
                 :
                 <Segment placeholder className="placeHolder">
-                    <Header icon>
+                    <Header icon >
                         <Icon name='camera retro' />
                         We don't have any photos for your Point of Interest.
                     </Header>

@@ -149,14 +149,20 @@ function Confirmation()
                                 value={streamSection}
                                 onChange={handleStreamSectionChange}
                             />
+                            </Form.Field>
                             <label>Class/Section ID: </label>
                             <Form.Input
                                 name='sectionID'
                                 value={sectionID}
                                 onChange={handleSectionIDChange}
                             />
-                            </Form.Field>
-                            <Button type="submit" color={'green'}  onClick={() => {
+
+                            <Button type="submit" color={'green'}
+                                    disabled = {!username
+                                    || !stream
+                                    || !streamSection
+                                    }
+                                    onClick={() => {
                                 setSubmitModal(true);
                             }}>
                                 Submit Data
