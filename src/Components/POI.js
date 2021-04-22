@@ -133,8 +133,8 @@ function POI() {
                             <p><Header as='h5'>Stream Name</Header>{stream}</p>
                         </Grid.Column>
                         <Grid.Column>
-                            <Form.TextArea label="Description" minHeight={100} onChange={handleDesc}></Form.TextArea>
-                            <Form.Button onClick={ handleSubmit }>Submit</Form.Button>
+                            <Form.TextArea required label="Description" minHeight={100} onChange={handleDesc}></Form.TextArea>
+                            <Form.Button green disabled={dataUri == "" || description == ""} onClick={ handleSubmit }>Submit</Form.Button>
                         </Grid.Column>
                         <Divider vertical className="relative"></Divider>
                     </Grid>
