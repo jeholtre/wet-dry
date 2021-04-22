@@ -248,7 +248,6 @@ function DataCollection() {
                     <Button basic color='red' inverted onClick={() => setFinishModal(false)}>
                         <Icon name='remove' /> No
                     </Button>
-                    {/*<CSVLink data={trail}>Download me</CSVLink>;*/}
                     <Button color='green' inverted onClick={() => {
                         setFinishModal(false);
                         console.log("submit");
