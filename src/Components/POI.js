@@ -5,6 +5,7 @@ import GoogleMapReact from 'google-map-react';
 import Camera, { FACING_MODES } from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import { useHistory } from 'react-router';
+import API_KEY from './DataCollection'
 
 function POI() {
 
@@ -121,7 +122,7 @@ function POI() {
             }
             <div className="placeHolder">
                 <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                    bootstrapURLKeys={{ key: API_KEY }}
                     defaultCenter={{lat: 0, lng: 0}}
                     center={{lat: currentLatitude, lng: currentLongitude}}
                     defaultZoom={12}

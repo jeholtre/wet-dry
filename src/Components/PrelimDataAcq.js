@@ -6,12 +6,11 @@ import '../css/PrelimDataAcq.css'
 
 function PrelimDataAcq()
 {
-
     const [username, setUserName] = useState('');
     const [stream, setStream] = useState('');
     const [streamSection, setStreamSection] = useState('');
     // need to know if this is correct. default false -> upstream?
-    const [streamDirection, setStreamDirection] = useState(Boolean(JSON.parse(localStorage.getItem('streamDirection'))) || false);   // stream direction: 0-> upstream
+    const [streamDirection, setStreamDirection] = useState(Boolean(JSON.parse(localStorage.getItem('streamDirection'))) || null);   // stream direction: 0-> upstream
     const [sectionID, setSectionID] = useState('');
     const [gPSInterval, setGPSInterval] = useState(1)
     const [open, setOpen] = React.useState(false)
@@ -41,6 +40,10 @@ function PrelimDataAcq()
         localStorage.setItem('sectionID', sectionID)
         };
 
+    /**
+     * time interval for GPS update
+     * @type {({text: string, value: number, key: string}|{text: string, value: number, key: string}|{text: string, value: number, key: string}|{text: string, value: number, key: string}|{text: string, value: number, key: string})[]}
+     */
     const timeIntervalOptions = [
         {
             key:    '1s',
@@ -68,6 +71,7 @@ function PrelimDataAcq()
             value:  15
         }
     ]
+
     return (
         <div className="PrelimDataAcq">
             <Header as='h1' textAlign='center' paddingTop="10px">
@@ -118,10 +122,13 @@ function PrelimDataAcq()
                         <label>Current Stream Direction:</label>
                         <div>
                             <Button.Group>
-                                <Button onClick={() => {
+                                <Button className={`ui ${streamDirection == false ? "positive": ""} button`}
+                                    onClick={() => {
                                     setStreamDirection(false);  // upstream
                                 }}>UpStream</Button>
-                                <Button onClick={() => {
+                                <Button
+                                    className={`ui ${streamDirection == true ? "positive": ""} button`}
+                                    onClick={() => {
                                     setStreamDirection(true);  // downstream
                                 }}>DownStream</Button>
                             </Button.Group>
@@ -140,9 +147,16 @@ function PrelimDataAcq()
                               fluid
                               selection
                               options={timeIntervalOptions}
+                              defaultValue={timeIntervalOptions[0].value}
                               onChange={handleGPSIntervalChange}
                     />
-                    <Button type="submit" color={'green'}  onClick={() => {
+                    <Button type="submit" color={'green'}
+                            disabled = {!username
+                            || !stream
+                            || !streamSection
+                            || streamDirection == null
+                            }
+                            onClick={() => {
                         window.location.href = "#/DataCollection"}}>Submit
                     </Button>
                 </Form>
