@@ -114,7 +114,13 @@ function Confirmation()
                                 onChange={handleSectionIDChange}
                             />
                             </Form.Field>
-                            <Button type="submit" color={'green'}  onClick={() => {
+                            <Button type="submit" color={'green'}
+                                    disabled = {!username
+                                    || !stream
+                                    || !streamSection
+                                    || !sectionID
+                                    }
+                                    onClick={() => {
                                 setSubmitModal(true);
                                 clearLocalStorage();
                             }}>
