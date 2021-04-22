@@ -137,6 +137,7 @@ function Confirmation()
                                 value={username}
                                 onChange={handleUsernameChange}
                             />
+
                             <label>Stream: </label>
                             <Form.Input
                                 name='stream'
