@@ -7,6 +7,7 @@ import '../css/PrelimDataAcq.css'
 function PrelimDataAcq()
 {
     const [username, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
     const [stream, setStream] = useState('');
     const [streamSection, setStreamSection] = useState('');
     // need to know if this is correct. default false -> upstream?
@@ -15,16 +16,19 @@ function PrelimDataAcq()
     const [gPSInterval, setGPSInterval] = useState(1)
     const [open, setOpen] = React.useState(false)
 
-    const handleUsernameChange = (e, {value} ) => {
+    const handleUsernameChange =    (e, {value} ) => {
         setUserName(value)
     };
-    const handleStreamChange = (e, {value} ) => {
+    const handleEmailChange =       (e, {value}) => {
+        setUserEmail(value)
+    };
+    const handleStreamChange =      (e, {value} ) => {
         setStream(value)
     };
     const handleStreamSectionChange = (e, {value} ) => {
         setStreamSection(value)
     };
-    const handleSectionIDChange = (e, {value} ) => {
+    const handleSectionIDChange =   (e, {value} ) => {
         setSectionID(value)
     };
     const handleGPSIntervalChange = (e, {value}) => {
@@ -33,6 +37,7 @@ function PrelimDataAcq()
 
     const handleSubmit = () => {
         localStorage.setItem('username', username)
+        localStorage.setItem('userEmail', userEmail)
         localStorage.setItem('stream', stream)
         localStorage.setItem('streamSection', streamSection)
         localStorage.setItem('streamDirection',streamDirection)
@@ -87,6 +92,18 @@ function PrelimDataAcq()
                             value={username}
                             onChange={handleUsernameChange}
                         />}
+                               on = 'focus'
+                               position = 'top left'
+                               inverted
+                        />
+                    </Form.Field>
+                    <Form.Field required>
+                        <label>E-mail for .csv</label>
+                        <Popup content={'email address to receive the survey outcome in .csv format'} trigger={<Form.Input
+                            name='userEmail'
+                            value={userEmail}
+                            onChange={handleEmailChange}
+                            />}
                                on = 'focus'
                                position = 'top left'
                                inverted
@@ -152,6 +169,7 @@ function PrelimDataAcq()
                     />
                     <Button type="submit" color={'green'}
                             disabled = {!username
+                                || !userEmail
                             || !stream
                             || !streamSection
                             || streamDirection == null
