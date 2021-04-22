@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Container, Form, Header, Icon, Input, Modal, Segment, Dimmer, Loader, Image,} from 'semantic-ui-react';
 import GoogleMapReact from "google-map-react";
 import {CSVLink} from "react-csv";
+import API_KEY from './DataCollection'
 
 export const clearLocalStorage = () => {
     localStorage.clear();
@@ -14,10 +15,12 @@ function Confirmation()
     const [date, setDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
     const [updateTime, setUpdateTime] = useState(1000);
-    const [username, setUserName] = useState('');
-    const [stream, setStream] = useState('');
-    const [streamSection, setStreamSection] = useState('');
-    const [sectionID, setSectionID] = useState('');
+    const [username, setUserName] = useState(localStorage.getItem('username'));
+
+    const [stream, setStream] = useState(localStorage.getItem('stream'));
+    const [streamSection, setStreamSection] = useState(localStorage.getItem('streamSection'));
+    const [sectionID, setSectionID] = useState(localStorage.getItem('sectionID'));
+
 
     const handleUsernameChange = (e, {value} ) => {
         setUserName(value)
@@ -72,6 +75,8 @@ function Confirmation()
         });
     };
 
+
+
     const [open, setOpen] = React.useState(false)
     const [SubmitModal, setSubmitModal] = useState(false);
     return (
@@ -83,34 +88,32 @@ function Confirmation()
                     <br></br>
                     <Segment>
                         <Form onSubmit={handleSubmit}>
+                            <Form.Field required>
                             <label>Name of Surveyor: </label>
                             <Form.Input
-                                required
                                 name='userName'
-                                value={localStorage.getItem('username')}
+                                value={username}
                                 onChange={handleUsernameChange}
                             />
                             <label>Stream: </label>
                             <Form.Input
-                                required
                                 name='stream'
-                                value={localStorage.getItem('stream')}
+                                value={stream}
                                 onChange={handleStreamChange}
                             />
                             <label>Stream Section: </label>
                             <Form.Input
-                                required
                                 name='streamSection'
-                                value={localStorage.getItem('streamSection')}
+                                value={streamSection}
                                 onChange={handleStreamSectionChange}
                             />
                             <label>Class/Section ID: </label>
                             <Form.Input
-                                required
                                 name='sectionID'
-                                value={localStorage.getItem('sectionID')}
+                                value={sectionID}
                                 onChange={handleSectionIDChange}
                             />
+                            </Form.Field>
                             <Button type="submit" color={'green'}  onClick={() => {
                                 setSubmitModal(true);
                                 clearLocalStorage();
@@ -145,7 +148,7 @@ function Confirmation()
 
                     <div className="map" style={{ height: '30vh', width: '30wh' }}>
                         <GoogleMapReact
-                            bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                            bootstrapURLKeys={{ key: API_KEY }}
                             defaultCenter={{lat: 0, lng: 0}}
                             center={{lat: currentLatitude, lng: currentLongitude}}
                             onGoogleApiLoaded={handleApiLoaded}

@@ -5,6 +5,7 @@ import GoogleMapReact from 'google-map-react';
 import Camera from 'react-html5-camera-photo';
 import 'react-html5-camera-photo/build/css/index.css';
 import { useHistory } from 'react-router';
+import API_KEY from './DataCollection'
 
 function POI() {
 
@@ -105,7 +106,7 @@ function POI() {
             }
             <div className="placeHolder">
                 <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                    bootstrapURLKeys={{ key: API_KEY }}
                     defaultCenter={{lat: 0, lng: 0}}
                     center={{lat: currentLatitude, lng: currentLongitude}}
                     defaultZoom={12}
@@ -132,8 +133,8 @@ function POI() {
                             <p><Header as='h5'>Stream Name</Header>{stream}</p>
                         </Grid.Column>
                         <Grid.Column>
-                            <Form.TextArea label="Description" minHeight={100} onChange={handleDesc}></Form.TextArea>
-                            <Form.Button onClick={ handleSubmit }>Submit</Form.Button>
+                            <Form.TextArea required label="Description" minHeight={100} onChange={handleDesc}></Form.TextArea>
+                            <Form.Button green disabled={dataUri == "" || description == ""} onClick={ handleSubmit }>Submit</Form.Button>
                         </Grid.Column>
                         <Divider vertical className="relative"></Divider>
                     </Grid>

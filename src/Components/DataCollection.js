@@ -7,7 +7,7 @@ import {LiveLocation} from "./LiveLocation";
 import GoogleMapReact from 'google-map-react';
 import { CSVLink, CSVDownload } from "react-csv";
 
-
+const API_KEY = "AIzaSyB6OJVSeLGq6wfAkC0Vy8e3EVGTKf_aE78";
 function DataCollection() {
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
@@ -135,7 +135,7 @@ function DataCollection() {
                 <div className={recording ? "recording" : "not-recording"}>
                     <div className="map">
                         <GoogleMapReact
-                        bootstrapURLKeys={{ key: "AIzaSyB9xcKvAjPfaHXB8lBW-VfchEe8twYxVrU" }}
+                        bootstrapURLKeys={{ key: API_KEY }}
                         center={{lat: currentLatitude, lng: currentLongitude}}
                         onGoogleApiLoaded={handleApiLoaded}
                         defaultZoom={14}/>
