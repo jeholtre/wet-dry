@@ -12,7 +12,7 @@
   }
   
   .POI .placeHolder {
-    min-width: 275px;
+    min-width: 315px;
     height: 33vh;
     contain: content;
   }
@@ -54,6 +54,34 @@
   .POI .placeHolder video {
     width: 100% !important;
     object-fit: contain;
-    max-width: 434px;
+    max-width: 378px;
     padding-top: 5px;
+  }
+
+  .POI .swap {
+    position: absolute;
+    left: 0;
+  }
+
+  .swap :first-child {
+    position: absolute !important;
+    z-index: 1;
+    left: 0;
+    top: 10px;
+    overflow: visible !important;
+    width: 15%;
+    height: 18%;
+  }
+
+  .swap :first-child.ui {
+    z-index: 3;
+  }
+
+  .swap :first-child i {
+    font-size: 150% !important;
+    color: white;
+  }
+
+  #container-circles {
+    bottom: 100px !important;
   }

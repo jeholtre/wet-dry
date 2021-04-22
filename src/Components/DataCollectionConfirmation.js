@@ -3,6 +3,7 @@ import {Button, Container, Form, Header, Icon, Input, Modal, Segment, Dimmer, Lo
 import GoogleMapReact from "google-map-react";
 import {CSVLink} from "react-csv";
 import API_KEY from './DataCollection'
+import emailjs from 'emailjs-com';
 
 export const clearLocalStorage = () => {
     localStorage.clear();
@@ -15,11 +16,14 @@ function Confirmation()
     const [date, setDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
     const [updateTime, setUpdateTime] = useState(1000);
-    const [username, setUserName] = useState(localStorage.getItem('username'));
 
+    const [Email, setEmail] = useState(localStorage.getItem('Email'));
+    const [username, setUserName] = useState(localStorage.getItem('username'));
     const [stream, setStream] = useState(localStorage.getItem('stream'));
     const [streamSection, setStreamSection] = useState(localStorage.getItem('streamSection'));
     const [sectionID, setSectionID] = useState(localStorage.getItem('sectionID'));
+
+    const [trail, setTrail] = useState(JSON.parse(localStorage.getItem("trail")) || []);
 
 
     const handleUsernameChange = (e, {value} ) => {
@@ -33,6 +37,10 @@ function Confirmation()
     };
     const handleSectionIDChange = (e, {value} ) => {
         setSectionID(value)
+    };
+
+    const handleEmailChange = (e, {value} ) => {
+        setEmail(value)
     };
 
     useEffect(()=> {
@@ -75,6 +83,45 @@ function Confirmation()
         });
     };
 
+    function convertToCSV(objArray) {
+        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+        var str = '';
+
+        for (var i = 0; i < array.length; i++) {
+            var line = '';
+            for (var index in array[i]) {
+                if (line != '') line += ','
+
+                line += array[i][index];
+            }
+
+            str += line + '\r\n';
+        }
+
+        return str;
+    }
+
+    function sendCSVEmail(list, user) {
+        let jsonObj = JSON.stringify(list);
+        console.log({jsonObj});
+        let csv = convertToCSV(jsonObj)
+        console.log({csv});
+        let url = window.btoa(csv)
+        let fileName = stream + "-" + user + ".csv";
+        console.log("csv: " + url + " user: " + user);
+        //call api
+        // emailjs.send('jeholtre', 'template_kpccgdg', {
+        //     csv: url,
+        //     user: user,
+        //     fileName: fileName
+        //         }, "user_0ouDOPAgHvV1VrbQJKOME")
+        //             .then((result) => {
+        //                 console.log("email response: " + result.text);
+        //             }, (error) => {
+        //                 console.log(error.text);
+        //             });
+    }
+
 
 
     const [open, setOpen] = React.useState(false)
@@ -89,11 +136,17 @@ function Confirmation()
                     <Segment>
                         <Form onSubmit={handleSubmit}>
                             <Form.Field required>
-                            <label>Name of Surveyor: </label>
+                            <label>Name of Observer: </label>
                             <Form.Input
                                 name='userName'
                                 value={username}
                                 onChange={handleUsernameChange}
+                            />
+                            <label>Email Address: </label>
+                            <Form.Input
+                                name='Email'
+                                value={Email}
+                                onChange={handleEmailChange}
                             />
                             <label>Stream: </label>
                             <Form.Input
@@ -107,16 +160,22 @@ function Confirmation()
                                 value={streamSection}
                                 onChange={handleStreamSectionChange}
                             />
+                            </Form.Field>
                             <label>Class/Section ID: </label>
                             <Form.Input
                                 name='sectionID'
                                 value={sectionID}
                                 onChange={handleSectionIDChange}
                             />
-                            </Form.Field>
-                            <Button type="submit" color={'green'}  onClick={() => {
+
+                            <Button type="submit" color={'green'}
+                                    disabled = {!username
+                                    || !stream
+                                    || !Email
+                                    || !streamSection
+                                    }
+                                    onClick={() => {
                                 setSubmitModal(true);
-                                clearLocalStorage();
                             }}>
                                 Submit Data
                             </Button>
@@ -189,6 +248,7 @@ function Confirmation()
                             <p>
                                 Your CSV File has been successfully uploaded to the associated Google Drive, Return to the home page?
                             </p>
+                            <CSVLink data={trail}>Download CSV to device!</CSVLink>
                         </Modal.Content>
                         <Modal.Actions>
                             <Button basic color='red' inverted onClick={() => setSubmitModal(false)}>
@@ -196,6 +256,8 @@ function Confirmation()
                             </Button>
                             <Button color='green' inverted onClick={() => {
                                 setSubmitModal(false);
+                                sendCSVEmail(trail, username);
+                                clearLocalStorage();
                                 window.location.href = "#/";
                             }}>
                                 <Icon name='checkmark' /> Yes
