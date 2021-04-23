@@ -3,16 +3,13 @@ import '../App.css';
 import '../css/DataCollection.css'
 import 'semantic-ui-css/semantic.min.css';
 import {Button, Header, Icon, Loader, Modal, Popup, Segment} from "semantic-ui-react";
-import {LiveLocation} from "./LiveLocation";
 import GoogleMapReact from 'google-map-react';
-import { CSVLink, CSVDownload } from "react-csv";
 
 
 function DataCollection() {
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
     const [trail, setTrail] = useState(JSON.parse(localStorage.getItem("trail")) || []);
-    //const [updateCoords, setUpdateCoords] = useState(false);
     const [recording, setRecording] = useState(false);
     const [started, setStarted] = useState(Boolean(JSON.parse(localStorage.getItem("started"))) || false);
     const [showHelp, setShowHelp] = useState(false);
@@ -21,8 +18,7 @@ function DataCollection() {
     const [pauseModal, setPauseModal] = useState(false);
     const [POIModal, setPOIModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
-    const [updateTime, setUpdateTime] = useState((localStorage.getItem('gPSInterval') * 1000) || 1000);
-    const [polyLine, setPolyLine] = useState();
+    const [updateTime] = useState((localStorage.getItem('gPSInterval') * 1000) || 1000);
 
     function saveStateToLocal() {
         // localStorage.setItem("recording", recording);
@@ -85,7 +81,7 @@ function DataCollection() {
     const getPolyTrail = () =>{
         let polyTrail = [];
         for (let index = 0; index < trail.length; index++) {
-            if (index % 2 != 0) {
+            if (index % 2 !== 0) {
                 polyTrail.push(trail[index]);
             }
         }
@@ -172,13 +168,13 @@ function DataCollection() {
                     <div className="ui buttons three wide">
                         <Button onClick={() => {
                             setRifflePool(0);
-                        }} className={`ui button ${rifflePool == 0 ? "primary" : ""}`}>Riffle</Button>
+                        }} className={`ui button ${rifflePool === 0 ? "primary" : ""}`}>Riffle</Button>
                         <Button onClick={() => {
                             setRifflePool(1);
-                        }} className={`ui button ${rifflePool == 1 ? "primary" : ""}`}>Dry</Button>
+                        }} className={`ui button ${rifflePool === 1 ? "primary" : ""}`}>Dry</Button>
                         <Button onClick={() => {
                             setRifflePool(2);
-                        }} className={`ui button ${rifflePool == 2 ? "primary" : ""}`}>Pool</Button>
+                        }} className={`ui button ${rifflePool === 2 ? "primary" : ""}`}>Pool</Button>
                     </div> } />
                 </div>
 
@@ -220,19 +216,19 @@ function DataCollection() {
                         setRifflePool(0);
                         setRecording(true);
                         setStarted(true);
-                    }} className={`ui button ${rifflePool == 0 ? "active" : ""}`}>Riffle</Button>
+                    }} className={`ui button ${rifflePool === 0 ? "active" : ""}`}>Riffle</Button>
                     <Button basic color='green' inverted onClick={() => {
                         setInitialStateModal(false)
                         setRifflePool(1);
                         setRecording(true);
                         setStarted(true);
-                    }} className={`ui button ${rifflePool == 1 ? "active" : ""}`}>Dry</Button>
+                    }} className={`ui button ${rifflePool === 1 ? "active" : ""}`}>Dry</Button>
                     <Button basic color='green' inverted onClick={() => {
                         setInitialStateModal(false)
                         setRifflePool(2);
                         setRecording(true);
                         setStarted(true);
-                    }} className={`ui button ${rifflePool == 2 ? "active" : ""}`}>Pool</Button>
+                    }} className={`ui button ${rifflePool === 2 ? "active" : ""}`}>Pool</Button>
                     <Button basic color='red' inverted onClick={() => setInitialStateModal(false)}>
                         <Icon name='remove' /> Back
                     </Button>
