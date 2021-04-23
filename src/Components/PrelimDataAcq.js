@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, Popup, Header, Modal, Segment, Dropdown, Message} from 'semantic-ui-react'
+import {Button, Form, Popup, Header, Modal, Segment, Dropdown} from 'semantic-ui-react'
 import '../css/PrelimDataAcq.css'
 // need to add corresponding button in Home.js then edit routes as well
 // inputs down work
@@ -15,7 +15,7 @@ function PrelimDataAcq()
 {
     const [username, setUserName] = useState('');
     const [userEmail, setUserEmail] = useState('');
-    const [falseEmail, setFalseEmail] = useState(null)
+    // const [falseEmail, setFalseEmail] = useState(null)
     const [stream, setStream] = useState('');
     const [streamSection, setStreamSection] = useState('');
     // need to know if this is correct. default false -> upstream?
@@ -30,9 +30,6 @@ function PrelimDataAcq()
     const handleEmailChange =       (e, {value}) => {
         setUserEmail(value)
     };
-    const handleFalseEmail =        (e, {value}) => {
-        setFalseEmail(isEmail(value))
-    }
     const handleStreamChange =      (e, {value} ) => {
         setStream(value)
     };
@@ -132,12 +129,6 @@ function PrelimDataAcq()
                         />
                     </Form.Field>
 
-                    {/*<Form.Input*/}
-                    {/*    placeholder='Stream name'*/}
-                    {/*    name='stream'*/}
-                    {/*    value={stream}*/}
-                    {/*    onChange={handleStreamChange}*/}
-                    {/*/>}*/}
                     <Form.Field required>
                         <label>Stream Section: </label>
                         <Form.Input
@@ -152,12 +143,13 @@ function PrelimDataAcq()
                         <label>Current Stream Direction:</label>
                         <div>
                             <Button.Group>
-                                <Button className={`ui ${streamDirection == false ? "primary": ""} button`}
+                                <Button
+                                    className={`ui ${streamDirection === false ? "primary": ""} button`}
                                     onClick={() => {
                                     setStreamDirection(false);  // upstream
                                 }}>UpStream</Button>
                                 <Button
-                                    className={`ui ${streamDirection == true ? "primary": ""} button`}
+                                    className={`ui ${streamDirection === true ? "primary": ""} button`}
                                     onClick={() => {
                                     setStreamDirection(true);  // downstream
                                 }}>DownStream</Button>
