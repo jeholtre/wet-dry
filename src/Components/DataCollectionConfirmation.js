@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Container, Form, Header, Icon, Input, Modal, Segment, Dimmer, Loader, Image,} from 'semantic-ui-react';
+import {Button, Container, Form, Header, Icon, Modal, Segment, Loader} from 'semantic-ui-react';
 import GoogleMapReact from "google-map-react";
 import {CSVLink} from "react-csv";
 import emailjs from 'emailjs-com';
@@ -12,9 +12,8 @@ function Confirmation()
 {
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
-    const [date, setDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
-    const [updateTime, setUpdateTime] = useState(1000);
+    const [updateTime] = useState(1000);
 
     const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail'));
     const [username, setUserName] = useState(localStorage.getItem('username'));
@@ -23,7 +22,7 @@ function Confirmation()
     const [sectionID, setSectionID] = useState(localStorage.getItem('sectionID'));
     const [fileName, setFileName] = useState("trail-recording-default");
 
-    const [trail, setTrail] = useState(JSON.parse(localStorage.getItem("trail")) || []);
+    const [trail] = useState(JSON.parse(localStorage.getItem("trail")) || []);
 
 
     const handleUsernameChange = (e, {value} ) => {
@@ -124,19 +123,19 @@ function Confirmation()
         let url = window.btoa(csv);
         console.log("email sent");
         //call api
-        // emailjs.send('jeholtre', 'template_kpccgdg', {
-        //     csv: url,
-        //     email: userEmail,
-        //     stream: stream,
-        //     section: streamSection,
-        //     user: user,
-        //     fileName: fileName
-        //         }, "user_0ouDOPAgHvV1VrbQJKOME")
-        //             .then((result) => {
-        //                 console.log("email response: " + result.text);
-        //             }, (error) => {
-        //                 console.log(error.text);
-        //             });
+        emailjs.send('jeholtre', 'template_kpccgdg', {
+            csv: url,
+            email: userEmail,
+            stream: stream,
+            section: streamSection,
+            user: user,
+            fileName: fileName
+                }, "user_0ouDOPAgHvV1VrbQJKOME")
+                    .then((result) => {
+                        console.log("email response: " + result.text);
+                    }, (error) => {
+                        console.log(error.text);
+                    });
     }
 
 
@@ -148,7 +147,6 @@ function Confirmation()
             <header>
                 <Container>
                     <h1 size="huge"><strong> Stream Data Confirmation </strong></h1>
-                    <br></br>
                     <br></br>
                     <Segment>
                         <Form onSubmit={handleSubmit}>
@@ -254,22 +252,14 @@ function Confirmation()
                         onClose={() => setSubmitModal(false)}
                         open={SubmitModal}
                         size='small'>
-                        {/*<div>*/}
-                        {/*    <Segment>*/}
-                        {/*        <Dimmer active>*/}
-                        {/*            <Loader indeterminate   >Exporting CSV File</Loader>*/}
-                        {/*        </Dimmer>*/}
 
-                        {/*        <Image src='https://react.semantic-ui.com/images/wireframe/short-paragraph.png' />*/}
-                        {/*    </Segment>*/}
-                        {/*</div>*/}
                         <Header icon>
                             <Icon name='thumbs up outline' />
                             Success!
                         </Header>
                         <Modal.Content>
                             <p>
-                                Your CSV File has been successfully uploaded to the associated Google Drive, Return to the home page?
+                                Your CSV File has been successfully sent to the associated Email address, Return to the home page?
                             </p>
                             <CSVLink filename={fileName + ".csv"} data={trail}>Download CSV to device!</CSVLink>
                         </Modal.Content>
