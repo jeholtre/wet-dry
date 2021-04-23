@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {Button, Container, Form, Header, Icon, Input, Modal, Segment, Dimmer, Loader, Image,} from 'semantic-ui-react';
 import GoogleMapReact from "google-map-react";
 import {CSVLink} from "react-csv";
-import API_KEY from './DataCollection'
 import emailjs from 'emailjs-com';
 
 export const clearLocalStorage = () => {
@@ -22,6 +21,7 @@ function Confirmation()
     const [stream, setStream] = useState(localStorage.getItem('stream'));
     const [streamSection, setStreamSection] = useState(localStorage.getItem('streamSection'));
     const [sectionID, setSectionID] = useState(localStorage.getItem('sectionID'));
+    const [fileName, setFileName] = useState("trail-recording-default");
 
     const [trail, setTrail] = useState(JSON.parse(localStorage.getItem("trail")) || []);
 
@@ -65,17 +65,30 @@ function Confirmation()
     };
 
     navigator.geolocation.watchPosition(function(position) {
-        console.log("Latitude is :", position.coords.latitude);
-        console.log("Longitude is :", position.coords.longitude);
         setCurrentLatitude(position.coords.latitude);
         setCurrentLongitude(position.coords.longitude);
         // let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
     });
-
+    const getPolyTrail = () =>{
+        let polyTrail = [];
+        for (let index = 0; index < trail.length; index++) {
+            if (index % 2 != 0) {
+                polyTrail.push(trail[index]);
+            }
+        }
+        return polyTrail;
+    }
     const handleApiLoaded = (map, maps) => {
         // use map and maps objects
+        let poly = new maps.Polyline({
+            strokeColor: "#d01919",
+            path: getPolyTrail(),
+            strokeOpacity: 1.0,
+            strokeWeight: 3,
+            geodesic: true,
+        });
+        poly.setMap(map);
         setLoading(false);
-        console.log("?")
         navigator.geolocation.getCurrentPosition( function(position) {
             setCurrentLatitude(position.coords.latitude);
             setCurrentLongitude(position.coords.longitude);
@@ -85,12 +98,12 @@ function Confirmation()
     };
 
     function convertToCSV(objArray) {
-        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-        var str = '';
+        let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+        let str = '';
 
-        for (var i = 0; i < array.length; i++) {
-            var line = '';
-            for (var index in array[i]) {
+        for (let i = 0; i < array.length; i++) {
+            let line = '';
+            for (let index in array[i]) {
                 if (line != '') line += ','
 
                 line += array[i][index];
@@ -102,17 +115,20 @@ function Confirmation()
         return str;
     }
 
+
     function sendCSVEmail(list, user) {
         let jsonObj = JSON.stringify(list);
         console.log({jsonObj});
         let csv = convertToCSV(jsonObj)
         console.log({csv});
-        let url = window.btoa(csv)
-        let fileName = stream + "-" + user + ".csv";
-        console.log("csv: " + url + " user: " + user);
+        let url = window.btoa(csv);
+        console.log("email sent");
         //call api
         // emailjs.send('jeholtre', 'template_kpccgdg', {
         //     csv: url,
+        //     email: userEmail,
+        //     stream: stream,
+        //     section: streamSection,
         //     user: user,
         //     fileName: fileName
         //         }, "user_0ouDOPAgHvV1VrbQJKOME")
@@ -176,7 +192,13 @@ function Confirmation()
                                     || !streamSection
                                     }
                                     onClick={() => {
-                                setSubmitModal(true);
+                                        let d = new Date();
+                                        let month = d.getUTCMonth();
+                                        let year = d.getUTCFullYear();
+                                        let formatDate = String(month).padStart(2, '0') + String(year).substring(2, 4);
+                                        console.log(formatDate);
+                                        setFileName(stream + "-" + username + "-" + formatDate);
+                                        setSubmitModal(true);
                             }}>
                                 Submit Data
                             </Button>
@@ -208,11 +230,11 @@ function Confirmation()
 
                     <div className="map" style={{ height: '30vh', width: '30wh' }}>
                         <GoogleMapReact
-                            bootstrapURLKeys={{ key: API_KEY }}
+                            bootstrapURLKeys={{ key: "AIzaSyB6OJVSeLGq6wfAkC0Vy8e3EVGTKf_aE78" }}
                             defaultCenter={{lat: 0, lng: 0}}
                             center={{lat: currentLatitude, lng: currentLongitude}}
-                            onGoogleApiLoaded={handleApiLoaded}
-                            defaultZoom={12}/>
+                            onGoogleApiLoaded={({map, maps})=>handleApiLoaded(map, maps)}
+                            defaultZoom={14}/>
                         { loading ?
                             <div className="loaderWrapper">
                                 <Loader active></Loader>
@@ -249,7 +271,7 @@ function Confirmation()
                             <p>
                                 Your CSV File has been successfully uploaded to the associated Google Drive, Return to the home page?
                             </p>
-                            <CSVLink data={trail}>Download CSV to device!</CSVLink>
+                            <CSVLink filename={fileName + ".csv"} data={trail}>Download CSV to device!</CSVLink>
                         </Modal.Content>
                         <Modal.Actions>
                             <Button basic color='red' inverted onClick={() => setSubmitModal(false)}>
