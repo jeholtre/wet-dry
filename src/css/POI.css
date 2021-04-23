@@ -1,7 +1,8 @@
 .POI {
     padding-top: 36px;
     padding-bottom: 36px;
-    background-color: #93c47dff;
+    background: rgb(255,138,48);
+    background: linear-gradient(0deg, rgba(255,138,48,1) 0%, rgba(54,167,255,1) 50%, rgba(40,113,230,1) 100%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
