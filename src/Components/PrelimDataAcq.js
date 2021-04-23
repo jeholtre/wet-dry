@@ -140,7 +140,7 @@ function PrelimDataAcq()
                     </Form.Field>
 
                     <Form.Field required>
-                        <label>Current Stream Direction:</label>
+                        <label>Current Direction:</label>
                         <div>
                             <Button.Group>
                                 <Button
