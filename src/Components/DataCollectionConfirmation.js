@@ -124,19 +124,19 @@ function Confirmation()
         let url = window.btoa(csv);
         console.log("email sent");
         //call api
-        // emailjs.send('jeholtre', 'template_kpccgdg', {
-        //     csv: url,
-        //     email: userEmail,
-        //     stream: stream,
-        //     section: streamSection,
-        //     user: user,
-        //     fileName: fileName
-        //         }, "user_0ouDOPAgHvV1VrbQJKOME")
-        //             .then((result) => {
-        //                 console.log("email response: " + result.text);
-        //             }, (error) => {
-        //                 console.log(error.text);
-        //             });
+        emailjs.send('jeholtre', 'template_kpccgdg', {
+            csv: url,
+            email: userEmail,
+            stream: stream,
+            section: streamSection,
+            user: user,
+            fileName: fileName
+                }, "user_0ouDOPAgHvV1VrbQJKOME")
+                    .then((result) => {
+                        console.log("email response: " + result.text);
+                    }, (error) => {
+                        console.log(error.text);
+                    });
     }
 
 
