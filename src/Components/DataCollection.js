@@ -7,7 +7,7 @@ import {LiveLocation} from "./LiveLocation";
 import GoogleMapReact from 'google-map-react';
 import { CSVLink, CSVDownload } from "react-csv";
 
-const API_KEY = "AIzaSyB6OJVSeLGq6wfAkC0Vy8e3EVGTKf_aE78";
+
 function DataCollection() {
     const [currentLatitude, setCurrentLatitude] = useState();
     const [currentLongitude, setCurrentLongitude] = useState();
@@ -22,7 +22,7 @@ function DataCollection() {
     const [POIModal, setPOIModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
     const [updateTime, setUpdateTime] = useState((localStorage.getItem('gPSInterval') * 1000) || 1000);
-
+    const [polyLine, setPolyLine] = useState();
 
     function saveStateToLocal() {
         // localStorage.setItem("recording", recording);
@@ -31,7 +31,6 @@ function DataCollection() {
         localStorage.setItem("trail", JSON.stringify(trail));
     }
 
-    console.log(updateTime)
 
     const [loading, setLoading] = useState(true);
 
@@ -72,7 +71,7 @@ function DataCollection() {
             navigator.geolocation.getCurrentPosition( async function(position) {
                     setCurrentLatitude(position.coords.latitude);
                     setCurrentLongitude(position.coords.longitude);
-                    let p = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+                    let p = {lat: position.coords.latitude, lng: position.coords.longitude};
                     setTrail(trail => [...trail, p]);
                 }, () => console.log("error"),
                 {enableHighAccuracy: false,
@@ -83,21 +82,47 @@ function DataCollection() {
         return () => clearInterval(interval);
     }, [], recording);
 
+    const getPolyTrail = () =>{
+        let polyTrail = [];
+        for (let index = 0; index < trail.length; index++) {
+            if (index % 2 != 0) {
+                polyTrail.push(trail[index]);
+            }
+        }
+        return polyTrail;
+    }
+
+    const  handleApiLoaded = async (map, maps) => {
+        let poly = new maps.Polyline({
+            strokeColor: "#d01919",
+            path: getPolyTrail(),
+            strokeOpacity: 1.0,
+            strokeWeight: 3,
+            geodesic: true,
+        });
+        poly.setMap(map);
+        setLoading(false);
+        navigator.geolocation.getCurrentPosition( function(position) {
+            setCurrentLatitude(position.coords.latitude);
+            setCurrentLongitude(position.coords.longitude);
+        });
+    };
+
+
     saveStateToLocal(); //this should really not happen every render....
-    console.log(started);
-    console.log({trail});
+
     return (
         <div className="DataCollection">
             <Header as='h1' textAlign='center' paddingTop="10px">
                 <Header.Content>Press Start To Begin Recording!<Icon name='location arrow' className="icon"/></Header.Content>
             </Header>
-            <Segment placeholder className="placeHolder">
+            <Segment placeholder className="placeHolder" >
                 <Header>
-                    <div>
+                    <div onClick={()=>setShowHelp(false)}>
                         <Popup
-                            content={'The button starts and pauses the recording!'}
+                            content={'Press to start and stop recording!'}
                             open={showHelp}
-                            position="right center"
+                            position="top center"
                             trigger={
                         <Button color={recording ? "red" : "green"} onClick={() => {
                             if( rifflePool == null) {
@@ -120,13 +145,14 @@ function DataCollection() {
                         setShowHelp(!showHelp)
                     }} name={"question circle outline"}/>
                 </Header>
-                <div className={recording ? "recording" : "not-recording"}>
+                <div className={recording ? "recording" : "not-recording"} onClick={()=>setShowHelp(false)}>
                     <div className="map">
                         <GoogleMapReact
-                        bootstrapURLKeys={{ key: API_KEY }}
+                        bootstrapURLKeys={{ key: "AIzaSyB6OJVSeLGq6wfAkC0Vy8e3EVGTKf_aE78" }}
                         center={{lat: currentLatitude, lng: currentLongitude}}
-                        onGoogleApiLoaded={() => setLoading(false)}
+                        onGoogleApiLoaded={({map, maps}) => handleApiLoaded(map, maps)}
                         defaultZoom={14}/>
+
                         { loading ?
                             <div className="loaderWrapper">
                                 <Loader active></Loader>
@@ -137,51 +163,45 @@ function DataCollection() {
                         }
                     </div>
                 </div>
-                <div>
+                <div onClick={()=>setShowHelp(false)}>
                     <Popup
-                        content={'Toggle the current state of the river here!'}
+                        content={'Toggle river state here!'}
                         open={showHelp}
                         position="top center"
                         trigger={
                     <div className="ui buttons three wide">
-                        <button onClick={() => {
+                        <Button onClick={() => {
                             setRifflePool(0);
-                        }} className={`ui button ${rifflePool == 0 ? "active" : ""}`}>Riffle</button>
-                        <button onClick={() => {
+                        }} className={`ui button ${rifflePool == 0 ? "primary" : ""}`}>Riffle</Button>
+                        <Button onClick={() => {
                             setRifflePool(1);
-                        }} className={`ui button ${rifflePool == 1 ? "active" : ""}`}>Dry</button>
-                        <button onClick={() => {
+                        }} className={`ui button ${rifflePool == 1 ? "primary" : ""}`}>Dry</Button>
+                        <Button onClick={() => {
                             setRifflePool(2);
-                        }} className={`ui button ${rifflePool == 2 ? "active" : ""}`}>Pool</button>
+                        }} className={`ui button ${rifflePool == 2 ? "primary" : ""}`}>Pool</Button>
                     </div> } />
                 </div>
 
                 <p>Current Location: {currentLatitude}, {currentLongitude}</p>
-                <div className={"ui buttons three wide"}>
 
-                    <Popup
-                        content={'Press this button to add a point of interest at your current location!'}
-                        open={showHelp}
-                        position="bottom center"
-                        trigger={
-                    <Button color={"green"} type={"button"} onClick={() => {
-                        setPOIModal(true);
-                    }}>
-                        Add POI
-                    </Button>}/>
-                    { started &&
-                    <Popup
-                        content={"When you're finished, press this button!"}
-                        open={showHelp}
-                        position="bottom center"
-                        trigger={
-                    <Button color={"red"} type={"button"} onClick={()=> {
-                        setFinishModal(true);
-                    }}>
-                        Finish Recording
-                    </Button>}/>}
-
-                </div>
+                <Popup
+                    content={"Add a point of interest or finalize the recording!"}
+                    open={showHelp}
+                    position="bottom center"
+                    trigger={
+                        <div onClick={()=>setShowHelp(false)} className={"ui buttons three wide"}>
+                            <Button color={"blue"} type={"button"} onClick={() => {
+                                setPOIModal(true);
+                            }}>
+                                Add POI
+                            </Button>}/>
+                            { started &&
+                            <Button color={"red"} type={"button"} onClick={()=> {
+                                setFinishModal(true);
+                            }}>
+                                Finish Recording
+                            </Button>}/>}
+                        </div>}></Popup>
 
             </Segment>
             <Modal
@@ -233,15 +253,14 @@ function DataCollection() {
                     </p>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button basic color='red' inverted onClick={() => setFinishModal(false)}>
-                        <Icon name='remove' /> No
-                    </Button>
                     <Button color='green' inverted onClick={() => {
                         setFinishModal(false);
-                        console.log("submit");
                         window.location.href = "#/DataCollectionConfirmation";
                     }}>
                         <Icon name='checkmark' /> Yes
+                    </Button>
+                    <Button color='red' inverted onClick={() => setFinishModal(false)}>
+                        <Icon name='remove' /> No
                     </Button>
                 </Modal.Actions>
             </Modal>
@@ -262,7 +281,7 @@ function DataCollection() {
                     </p>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button basic color='red' inverted onClick={() => setPauseModal(false)}>
+                    <Button color='red' inverted onClick={() => setPauseModal(false)}>
                         <Icon name='remove' /> Close
                     </Button>
                 </Modal.Actions>
@@ -278,13 +297,13 @@ function DataCollection() {
                     This will pause the recording! Don't go too far!
                 </Header>
                 <Modal.Actions>
-                    <Button basic color='green' inverted onClick={() => {
+                    <Button color='green' inverted onClick={() => {
                         setPOIModal(false);
                         window.location.href = "#/POI";
                     }}>
                         <Icon name='checkmark' /> Add POI
                     </Button>
-                    <Button basic color='red' inverted onClick={() => setPOIModal(false)}>
+                    <Button color='red' inverted onClick={() => setPOIModal(false)}>
                         <Icon name='remove' /> Cancel
                     </Button>
                 </Modal.Actions>
