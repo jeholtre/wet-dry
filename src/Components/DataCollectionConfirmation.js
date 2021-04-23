@@ -169,7 +169,7 @@ function Confirmation()
                                 onChange={handleSectionIDChange}
                             />
 
-                            <Button type="submit" color={'green'}
+                            <Button type="submit" color={'blue'}
                                     disabled = {!username
                                     || !stream
                                     || !userEmail
@@ -186,7 +186,7 @@ function Confirmation()
                                 onClose={() => setOpen(false)}
                                 onOpen={() => setOpen(true)}
                                 open={open}
-                                trigger={<Button color={'green'}>Help</Button>}
+                                trigger={<Button color={'blue'}>Help</Button>}
                             >
                                 <Modal.Header>Help for the Confirmation Page</Modal.Header>
                                 <Modal.Content image>
@@ -198,7 +198,7 @@ function Confirmation()
                                     </Modal.Description>
                                 </Modal.Content>
                                 <Modal.Actions>
-                                    <Button color='green' onClick={() => setOpen(false)}>
+                                    <Button color='blue' onClick={() => setOpen(false)}>
                                         Close Popup
                                     </Button>
                                 </Modal.Actions>
