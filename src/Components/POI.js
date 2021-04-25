@@ -18,7 +18,10 @@ function POI() {
     const [description, setDescription] = useState("");
     const [stream, setStream] = useState(localStorage.getItem("stream") || "");
     const [facing, setFacing] = useState(FACING_MODES.ENVIRONMENT);
-    
+    const [username, setUserName] = useState(localStorage.getItem('username'));
+    const [streamSection, setStreamSection] = useState(localStorage.getItem('streamSection'));
+    const [rifflePool, setRifflePool] = useState(Boolean(JSON.parse(localStorage.getItem("rifflePool"))) || null);
+
     var trail;
 
     let history = useHistory();
@@ -43,14 +46,17 @@ function POI() {
 
     function handleSubmit() {
         trail = JSON.parse(localStorage.getItem("trail"));
-        trail.push({
-            "dataUri": dataUri, 
-            "lat": currentLatitude,
-            "lng": currentLongitude,
-            "desc": description
-        });
+        let fs;
+        if(rifflePool == "0") {
+            fs = "riffle";
+        } else if (rifflePool == "1") {
+            fs="dry";
+        } else {
+            fs = "pool";
+        }
+        let p = {basin: stream, subbasin: streamSection, date: new Date().toISOString().split('T')[0], observer: username, lat: currentLatitude, lng: currentLongitude, flowstate: fs, POI: description, photo: dataUri ? "true" : "false"};
+        trail.push(p);
         localStorage.setItem('trail', JSON.stringify(trail));
-
         history.push("/DataCollection");
     }
 

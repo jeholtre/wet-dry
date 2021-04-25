@@ -19,6 +19,10 @@ function DataCollection() {
     const [POIModal, setPOIModal] = useState(false);
     const [initialStateModal, setInitialStateModal] = useState(false);
     const [updateTime] = useState((localStorage.getItem('gPSInterval') * 1000) || 1000);
+    const [stream, setStream] = useState(localStorage.getItem('stream'));
+    const [streamSection, setStreamSection] = useState(localStorage.getItem('streamSection'));
+    const [username, setUserName] = useState(localStorage.getItem('username'));
+
 
     function saveStateToLocal() {
         // localStorage.setItem("recording", recording);
@@ -67,7 +71,15 @@ function DataCollection() {
             navigator.geolocation.getCurrentPosition( async function(position) {
                     setCurrentLatitude(position.coords.latitude);
                     setCurrentLongitude(position.coords.longitude);
-                    let p = {lat: position.coords.latitude, lng: position.coords.longitude};
+                    let fs;
+                    if(rifflePool == "0") {
+                        fs = "riffle";
+                    } else if (rifflePool == "1") {
+                        fs="dry";
+                    } else {
+                        fs = "pool";
+                    }
+                    let p = {basin: stream, subbasin: streamSection, date: new Date().toISOString().split('T')[0], observer: username, lat: position.coords.latitude, lng: position.coords.longitude, flowstate: fs, POI: null, photo: null};
                     setTrail(trail => [...trail, p]);
                 }, () => console.log("error"),
                 {enableHighAccuracy: false,

@@ -21,7 +21,6 @@ function Confirmation()
     const [streamSection, setStreamSection] = useState(localStorage.getItem('streamSection'));
     const [sectionID, setSectionID] = useState(localStorage.getItem('sectionID'));
     const [fileName, setFileName] = useState("trail-recording-default");
-
     const [trail] = useState(JSON.parse(localStorage.getItem("trail")) || []);
 
 
@@ -116,9 +115,10 @@ function Confirmation()
 
 
     function sendCSVEmail(list, user) {
+        list.unshift({basin:"basin",subbasin:"subbasin",date:"date",observer:"observer",lat:"lat",lng:"lng", flowstate:"flowstate", POI:"POI",photo:"photo"});
         let jsonObj = JSON.stringify(list);
         console.log({jsonObj});
-        let csv = convertToCSV(jsonObj)
+        let csv = convertToCSV(jsonObj);
         console.log({csv});
         let url = window.btoa(csv);
         console.log("email sent");
@@ -139,9 +139,9 @@ function Confirmation()
     }
 
 
-
     const [open, setOpen] = React.useState(false)
     const [SubmitModal, setSubmitModal] = useState(false);
+
     return (
         <div className="PrelimDataAcq">
             <header>
@@ -259,7 +259,9 @@ function Confirmation()
                         </Header>
                         <Modal.Content>
                             <p>
-                                Your CSV File has been successfully sent to the associated Email address, Return to the home page?
+                                Would you like to send this recording as a csv to the desired email?
+                                Sending POI pictures is not currently supported, sorry for the inconvenience!
+                                We highly recommend you download the CSV to your device with the link below!!!!
                             </p>
                             <CSVLink filename={fileName + ".csv"} data={trail}>Download CSV to device!</CSVLink>
                         </Modal.Content>
@@ -273,7 +275,7 @@ function Confirmation()
                                 clearLocalStorage();
                                 window.location.href = "#/";
                             }}>
-                                <Icon name='checkmark' /> Yes
+                                <Icon name='checkmark' /> Send Email!
                             </Button>
                         </Modal.Actions>
                     </Modal>
